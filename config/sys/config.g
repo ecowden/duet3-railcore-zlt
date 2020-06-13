@@ -6,16 +6,16 @@
 ; General preferences
 G90                                          ; send absolute coordinates...
 M83                                          ; ...but relative extruder moves
-M550 P"Railcore II ZLT"                         ; set printer name
+M550 P"Railcore II ZLT"                      ; set printer name
 M669 K1                                      ; select CoreXY mode
 
 ; Drives
-M569 P0.0 S1                                 ; physical drive 0.0 goes forwards
-M569 P0.1 S1                                 ; physical drive 0.1 goes forwards
-M569 P0.2 S1                                 ; physical drive 0.2 goes forwards
-M569 P0.3 S1                                 ; physical drive 0.3 goes forwards
-M569 P0.4 S1                                 ; physical drive 0.4 goes forwards
-M569 P0.5 S1                                 ; physical drive 0.5 goes forwards
+M569 P0.0 S1                                 ; X / Rear     0.0 goes forwards
+M569 P0.1 S1                                 ; Y / Front    0.1 goes forwards
+M569 P0.2 S1 D3                              ; Z Front Left 0.2 goes forwards
+M569 P0.3 S1 D3                              ; Z Rear Left  0.3 goes forwards
+M569 P0.4 S1 D3                              ; Z Right      0.4 goes forwards
+M569 P0.5 S1                                 ; Extruder     0.5 goes forwards
 M584 X0.0 Y0.1 Z0.2:0.3:0.4 E0.5             ; set drive mapping
 M350 X32 Y32 Z16 E32 I1                      ; configure microstepping with interpolation
 M92 X400.00 Y400.00 Z3200.00 E1674.00        ; set steps per mm
@@ -29,6 +29,9 @@ M84 S30                                      ; Set idle timeout
 M208 X0 Y0 Z0 S1                             ; set axis minima
 M208 X295 Y295 Z575 S0                       ; set axis maxima
 
+;Leadscrew locations
+M671 X-10:-10:333  Y22.5:277.5:150 S7.5      ; Starting estimate, measure real values
+
 ; Endstops
 M574 X1 S1 P"io1.in"                         ; configure active-high endstop for high end on X via pin io1.in
 M574 Y1 S1 P"io2.in"                         ; configure active-high endstop for high end on Y via pin io2.in
@@ -38,7 +41,9 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T6000             ; set Z probe type to bltouch and the dive height + speeds
 G31 P500 X2 Y42 Z2                           ; set Z probe trigger value, offset and trigger height
-M557 X10:295 Y10:295 S57                     ; define mesh grid
+
+; Mesh bed leveling moved to macros/gridProbe
+; M557 X10:295 Y10:295 S57                   ; define mesh grid, elmoret's coordinates
 
 ; Heaters
 M308 S0 P"temp0" Y"thermistor" T100000 B3950 R4700 ; configure sensor 0 as thermistor on pin temp0
