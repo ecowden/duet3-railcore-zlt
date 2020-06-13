@@ -1,6 +1,9 @@
 # Railcore II ZLT Duet3 Configs
 
-Duet3 RRF v3.1.1 configurations for my custom Railcore II ZLT
+Duet3 RRF v3.1.1 configurations for my custom Railcore II ZLT, along with 
+several variations I've been using for reference.
+
+**UNTESTED**. I have not verified these configurations yet. Be careful!
 
 ## Contents
 
