@@ -6,7 +6,7 @@
 ; General preferences
 G90                                          ; send absolute coordinates...
 M83                                          ; ...but relative extruder moves
-M550 P"Railcore II ZLT"                      ; set printer name
+M550 P"Duet3"                                ; set printer name, must match Linux hostname
 M669 K1                                      ; select CoreXY mode
 
 ; Drives
