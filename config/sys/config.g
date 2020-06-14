@@ -46,14 +46,15 @@ G31 P500 X2 Y42 Z2                           ; set Z probe trigger value, offset
 ; M557 X10:295 Y10:295 S57                   ; define mesh grid, elmoret's coordinates
 
 ; Heaters
-M308 S0 P"temp0" Y"thermistor" T100000 B3950 R4700 ; configure sensor 0 as thermistor on pin temp0
+M308 S0 P"temp0" Y"thermistor" T100000 B3950 R4700 ; configure bed, sensor 0, as thermistor on pin temp0
 M950 H0 C"out1" T0                                 ; create bed heater output on out1 and map it to sensor 0
 M307 H0 B1 S1.00                                   ; enable bang-bang mode for the bed heater and set PWM limit
 M140 H0                                            ; map heated bed to heater 0
-M143 H0 S120                                       ; set temperature limit for heater 0 to 120C
-M308 S1 P"spi.cs0" Y"rtd-max31865"                 ; configure sensor 1 as thermocouple via CS pin spi.cs0
+M143 H0 S120                                       ; set temperature limit for bed, heater 0, to 120C
+M308 S1 P"spi.cs0" Y"rtd-max31865"                 ; configure nozzle, sensor 1, as thermocouple via CS pin spi.cs0
 M950 H1 C"out0" T1                                 ; create nozzle heater output on out0 and map it to sensor 1
 M307 H1 B0 S1.00                                   ; disable bang-bang mode for heater  and set PWM limit
+M143 H1 S350                                       ; set temperature limit for nozzle
 
 ; Fans
 M950 F0 C"out5" Q500                         ; create fan 0 on pin out5 and set its frequency
