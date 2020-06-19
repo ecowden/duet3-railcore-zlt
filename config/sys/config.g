@@ -21,6 +21,7 @@ M350 X32 Y32 Z16 E32 I1                      ; configure microstepping with inte
 M92 X400.00 Y400.00 Z3200.00 E1674.00        ; set steps per mm
 M566 X840.00 Y840.00 Z96.00 E1500.00         ; set maximum instantaneous speed changes (mm/min)
 M203 X12000.00 Y12000.00 Z900.00 E3600.00    ; set maximum speeds (mm/min)
+; M203 X9600.00 Y9600.00 Z900.00 E3600.00    ; set maximum speeds (mm/min) - May need to slow down X&Y for CoreXY kinematics
 M201 X2500.00 Y2500.00 Z100.00 E1500.00      ; set accelerations (mm/s^2)
 M906 X1600 Y1600 Z1600 E1100 I80             ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                      ; Set idle timeout
