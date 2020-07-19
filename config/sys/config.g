@@ -13,14 +13,14 @@ M669 K1                                      ; select CoreXY mode
 M569 P0.0 S1 D3                              ; Extruder     0.0 goes forwards
 M569 P0.1 S1 D3                              ; Y / Front    0.1 goes forwards
 M569 P0.2 S0 D3                              ; X / Rear     0.2 goes backwards
-M569 P0.3 S0 D3                              ; Z Front Left 0.3 goes backwards
+M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards
 M569 P0.4 S0 D3                              ; Z Rear Left  0.4 goes backwards
-M569 P0.5 S0 D3                              ; Z Right      0.5 goes backwards
-M584 E0.0 Y0.1 X0.2 Z0.3:0.4:0.5             ; set drive mapping
+M569 P0.5 S0 D3                              ; Z Front Left 0.5 goes backwards
+M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3             ; set drive mapping
 M350 X32 Y32 Z16 E32 I1                      ; configure microstepping with interpolation
 M92 X400.00 Y400.00 Z3200.00 E1674.00        ; set steps per mm
 M566 X840.00 Y840.00 Z96.00 E1500.00         ; set maximum instantaneous speed changes (mm/min)
-M203 X24000.00 Y24000.00 Z900.00 E3600.00    ; set maximum speeds (mm/min)
+M203 X24000.00 Y24000.00 Z720.00 E3600.00    ; set maximum speeds (mm/min)
 ; M203 X9600.00 Y9600.00 Z900.00 E3600.00    ; set maximum speeds (mm/min) - May need to slow down X&Y for CoreXY kinematics
 M201 X2500.00 Y2500.00 Z100.00 E1500.00      ; set accelerations (mm/s^2)
 M906 X1600 Y1600 Z1600 E1100 I30             ; set motor currents (mA) and motor idle factor in per cent
@@ -36,7 +36,8 @@ M208 X0 Y0 Z0 S1                             ; set axis minima
 M208 X295 Y285 Z575 S0                       ; set axis maxima
 
 ;Leadscrew locations
-M671 X-10:-10:333  Y22.5:277.5:150 S7.5      ; Starting estimate, measure real values
+; M671 X-10:-10:333  Y22.5:277.5:150 S7.5      ; Starting estimate, measure real values
+M671 X-40:-40:375  Y-1:253.5:137 S7.5        ; Measured leadscrew locations, I think my endstops are messed up
 
 ; Endstops
 M574 X1 S1 P"io0.in"                         ; configure active-high endstop for high end on X via pin io1.in
@@ -46,10 +47,11 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 ; Z-Probe
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T6000             ; set Z probe type to bltouch and the dive height + speeds
-G31 P500 X2 Y42 Z2                           ; set Z probe trigger value, offset and trigger height
+G31 P500 X-2.8 Y43 Z2                        ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling moved to macros/gridProbe
 ; M557 X10:295 Y10:295 S57                   ; define mesh grid, elmoret's coordinates
+M557 X102.7:227.7 Y81.5:196.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates																
 
 ; Heaters
 M308 S0 P"temp0" Y"thermistor" A"Bed" T100000 B4240 ; configure bed, sensor 0, as thermistor on pin temp0
