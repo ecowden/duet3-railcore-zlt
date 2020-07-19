@@ -12,11 +12,11 @@ M669 K1                                      ; select CoreXY mode
 ; Drives
 M569 P0.0 S1 D3                              ; Extruder     0.0 goes forwards
 M569 P0.1 S1 D3                              ; Y / Front    0.1 goes forwards
-M569 P0.2 S1 D3                              ; X / Rear     0.2 goes forwards
-M569 P0.3 S1 D3                              ; Z Front Left 0.3 goes forwards
-M569 P0.4 S1 D3                              ; Z Rear Left  0.4 goes forwards
-M569 P0.5 S1 D3                              ; Z Right      0.5 goes forwards
-M584 E0.0 X0.1 Y0.2 Z0.3:0.4:0.5             ; set drive mapping
+M569 P0.2 S0 D3                              ; X / Rear     0.2 goes backwards
+M569 P0.3 S0 D3                              ; Z Front Left 0.3 goes backwards
+M569 P0.4 S0 D3                              ; Z Rear Left  0.4 goes backwards
+M569 P0.5 S0 D3                              ; Z Right      0.5 goes backwards
+M584 E0.0 Y0.1 X0.2 Z0.3:0.4:0.5             ; set drive mapping
 M350 X32 Y32 Z16 E32 I1                      ; configure microstepping with interpolation
 M92 X400.00 Y400.00 Z3200.00 E1674.00        ; set steps per mm
 M566 X840.00 Y840.00 Z96.00 E1500.00         ; set maximum instantaneous speed changes (mm/min)
@@ -33,7 +33,7 @@ M84 S30                                      ; Set idle timeout
 
 ; Axis Limits
 M208 X0 Y0 Z0 S1                             ; set axis minima
-M208 X295 Y295 Z575 S0                       ; set axis maxima
+M208 X295 Y285 Z575 S0                       ; set axis maxima
 
 ;Leadscrew locations
 M671 X-10:-10:333  Y22.5:277.5:150 S7.5      ; Starting estimate, measure real values
