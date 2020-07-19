@@ -6,25 +6,30 @@
 ; General preferences
 G90                                          ; send absolute coordinates...
 M83                                          ; ...but relative extruder moves
-M550 P"Duet3"                                ; set printer name, must match Linux hostname
+M550 P"Railcore"                             ; set printer name, must match Linux hostname
 M669 K1                                      ; select CoreXY mode
 
 ; Drives
-M569 P0.0 S1 D3                              ; X / Rear     0.0 goes forwards
+M569 P0.0 S1 D3                              ; Extruder     0.0 goes forwards
 M569 P0.1 S1 D3                              ; Y / Front    0.1 goes forwards
-M569 P0.2 S1 D3                              ; Z Front Left 0.2 goes forwards
-M569 P0.3 S1 D3                              ; Z Rear Left  0.3 goes forwards
-M569 P0.4 S1 D3                              ; Z Right      0.4 goes forwards
-M569 P0.5 S1 D3                              ; Extruder     0.5 goes forwards
-M584 X0.0 Y0.1 Z0.2:0.3:0.4 E0.5             ; set drive mapping
+M569 P0.2 S1 D3                              ; X / Rear     0.2 goes forwards
+M569 P0.3 S1 D3                              ; Z Front Left 0.3 goes forwards
+M569 P0.4 S1 D3                              ; Z Rear Left  0.4 goes forwards
+M569 P0.5 S1 D3                              ; Z Right      0.5 goes forwards
+M584 E0.0 X0.1 Y0.2 Z0.3:0.4:0.5             ; set drive mapping
 M350 X32 Y32 Z16 E32 I1                      ; configure microstepping with interpolation
 M92 X400.00 Y400.00 Z3200.00 E1674.00        ; set steps per mm
 M566 X840.00 Y840.00 Z96.00 E1500.00         ; set maximum instantaneous speed changes (mm/min)
-M203 X12000.00 Y12000.00 Z900.00 E3600.00    ; set maximum speeds (mm/min)
+M203 X24000.00 Y24000.00 Z900.00 E3600.00    ; set maximum speeds (mm/min)
 ; M203 X9600.00 Y9600.00 Z900.00 E3600.00    ; set maximum speeds (mm/min) - May need to slow down X&Y for CoreXY kinematics
 M201 X2500.00 Y2500.00 Z100.00 E1500.00      ; set accelerations (mm/s^2)
-M906 X1600 Y1600 Z1600 E1100 I80             ; set motor currents (mA) and motor idle factor in per cent
+M906 X1600 Y1600 Z1600 E1100 I30             ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                      ; Set idle timeout
+
+; From cheeseandham on Discord, June 20, 2020
+; M201 X4000 Y4000 Z100 E1500       ; Accelerations (mm/s^2)
+; M203 X24000 Y24000 Z800 E3600     ; Maximum speeds (mm/min)
+; M566 X1000 Y1000 Z100 E1500       ; Maximum jerk speeds mm/minute
 
 ; Axis Limits
 M208 X0 Y0 Z0 S1                             ; set axis minima
@@ -34,8 +39,8 @@ M208 X295 Y295 Z575 S0                       ; set axis maxima
 M671 X-10:-10:333  Y22.5:277.5:150 S7.5      ; Starting estimate, measure real values
 
 ; Endstops
-M574 X1 S1 P"io1.in"                         ; configure active-high endstop for high end on X via pin io1.in
-M574 Y1 S1 P"io2.in"                         ; configure active-high endstop for high end on Y via pin io2.in
+M574 X1 S1 P"io0.in"                         ; configure active-high endstop for high end on X via pin io1.in
+M574 Y1 S1 P"io3.in"                         ; configure active-high endstop for high end on Y via pin io2.in
 M574 Z1 S2                                   ; configure Z-probe endstop for low end on Z (*Not in reference*)
 
 ; Z-Probe
@@ -52,24 +57,32 @@ M950 H0 C"out1" T0                                 ; create bed heater output on
 M307 H0 B1 S1.00                                   ; enable bang-bang mode for the bed heater and set PWM limit
 M140 H0                                            ; map heated bed to heater 0
 M143 H0 S120                                       ; set temperature limit for bed, heater 0, to 120C
-M308 S1 P"spi.cs0" Y"rtd-max31865"                 ; configure nozzle, sensor 1, as thermocouple via CS pin spi.cs0
+M308 S1 P"temp2" Y"pt1000" R2200                   ; configure nozzle, sensor 1, as PT1000 on pin temp2
 M950 H1 C"out0" T1                                 ; create nozzle heater output on out0 and map it to sensor 1
 M307 H1 B0 S1.00                                   ; disable bang-bang mode for heater  and set PWM limit
 M143 H1 S350                                       ; set temperature limit for nozzle
 
+; TODO is this the right thermistor?
+M308 S2 P"temp1" Y"thermistor" T100000 B3950 R4700 ; configure keenovo thermistor, sensor 2, as thermistor on pin temp0
+
+
+
 ; Fans
-M950 F0 C"out5" Q500                         ; create fan 0 on pin out5 and set its frequency
-M106 P0 C"Hotend" S0 H1 T50                  ; set fan 0 name and value. Thermostatic control is turned on
-M950 F1 C"out4" Q500                         ; create fan 1 on pin out4 and set its frequency
-M106 P1 C"Layer" S1 H-1                      ; set fan 1 name and value. Thermostatic control is turned off
+M950 F0 C"out8" Q500                         ; create fan 0 on pin out5 and set its frequency
+M106 P0 C"Hotend" S0 H1 T40                  ; set fan 0 name and value. Thermostatic control is turned on
+M950 F1 C"out7" Q500                         ; create fan 1 on pin out4 and set its frequency
+M106 P1 C"Part" S1 H-1                       ; set fan 1 name and value. Thermostatic control is turned off
+M950 F2 C"!out6+out6.tach" Q25000            ; create fan 2 as PWM fan on pin out6 and set its frequency
+M106 P2 C"Elec Box" S0.5 H-1                 ; set fan 2 name and value. Thermostatic control is turned off
 
 ; Tools
-M563 P0 S"Mosquito Magnum" D0 H1 F0:1        ; define tool 0
+M563 P0 S"Mosquito" D0 H1 F0:1               ; define tool 0
 G10 P0 X0 Y0 Z0                              ; set tool 0 axis offsets
 G10 P0 R0 S0                                 ; set initial tool 0 active and standby temperatures to 0C
 
 ; Custom settings are not defined
 
 ; Miscellaneous
+M308 S10 P"mcu-temp" Y"mcu-temp" A"MCU"      ; Set MCU temp on Sensor 10
 T0                                           ; select first tool
 
