@@ -52,26 +52,26 @@ G31 P500 X2 Y42 Z2                           ; set Z probe trigger value, offset
 ; M557 X10:295 Y10:295 S57                   ; define mesh grid, elmoret's coordinates
 
 ; Heaters
-M308 S0 P"temp0" Y"thermistor" T100000 B3950 R4700 ; configure bed, sensor 0, as thermistor on pin temp0
-M950 H0 C"out1" T0                                 ; create bed heater output on out1 and map it to sensor 0
-M307 H0 B1 S1.00                                   ; enable bang-bang mode for the bed heater and set PWM limit
-M140 H0                                            ; map heated bed to heater 0
-M143 H0 S120                                       ; set temperature limit for bed, heater 0, to 120C
-M308 S1 P"temp2" Y"pt1000" R2200                   ; configure nozzle, sensor 1, as PT1000 on pin temp2
-M950 H1 C"out0" T1                                 ; create nozzle heater output on out0 and map it to sensor 1
-M307 H1 B0 S1.00                                   ; disable bang-bang mode for heater  and set PWM limit
-M143 H1 S350                                       ; set temperature limit for nozzle
+M308 S0 P"temp0" Y"thermistor" A"Bed" T100000 B4240 ; configure bed, sensor 0, as thermistor on pin temp0
+M950 H0 C"out1" T0                                  ; create bed heater output on out1 and map it to sensor 0
+M307 H0 B1 S1.00                                    ; enable bang-bang mode for the bed heater and set PWM limit
+M140 H0                                             ; map heated bed to heater 0
+M143 H0 S120                                        ; set temperature limit for bed, heater 0, to 120C
+M308 S1 P"temp2" Y"pt1000" A"Hotend" R2200          ; configure nozzle, sensor 1, as PT1000 on pin temp2
+M950 H1 C"out2" T1                                  ; create nozzle heater output on out2 and map it to sensor 1
+M307 H1 B0 S1.00                                    ; disable bang-bang mode for heater  and set PWM limit
+M143 H1 S350                                        ; set temperature limit for nozzle
 
 ; TODO is this the right thermistor?
-M308 S2 P"temp1" Y"thermistor" T100000 B3950 R4700 ; configure keenovo thermistor, sensor 2, as thermistor on pin temp0
+M308 S2 P"temp1" Y"thermistor" A"Keenovo" T100000 B3950 ; configure keenovo thermistor, sensor 2, as thermistor on pin temp1
 
 
 
 ; Fans
 M950 F0 C"out8" Q500                         ; create fan 0 on pin out5 and set its frequency
-M106 P0 C"Hotend" S0 H1 T40                  ; set fan 0 name and value. Thermostatic control is turned on
+M106 P0 C"Hotend" S0.5 H1 T40                ; set fan 0 name and value. Thermostatic control is turned on
 M950 F1 C"out7" Q500                         ; create fan 1 on pin out4 and set its frequency
-M106 P1 C"Part" S1 H-1                       ; set fan 1 name and value. Thermostatic control is turned off
+M106 P1 C"Part" S0 H-1                       ; set fan 1 name and value. Thermostatic control is turned off
 M950 F2 C"!out6+out6.tach" Q25000            ; create fan 2 as PWM fan on pin out6 and set its frequency
 M106 P2 C"Elec Box" S0.5 H-1                 ; set fan 2 name and value. Thermostatic control is turned off
 
