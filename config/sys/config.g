@@ -32,12 +32,12 @@ M84 S30                                      ; Set idle timeout
 ; M566 X1000 Y1000 Z100 E1500       ; Maximum jerk speeds mm/minute
 
 ; Axis Limits
-M208 X0 Y0 Z0 S1                             ; set axis minima
+M208 X0 Y0 Z0.15 S1                          ; set axis minima
 M208 X295 Y285 Z575 S0                       ; set axis maxima
 
 ;Leadscrew locations
-; M671 X-10:-10:333  Y22.5:277.5:150 S7.5      ; Starting estimate, measure real values
-M671 X-40:-40:375  Y-1:253.5:137 S7.5        ; Measured leadscrew locations, I think my endstops are messed up
+; M671 X-10:-10:333  Y22.5:277.5:150 S7.5    ; Starting estimate, measure real values
+M671 X-42.5:-42.5:377.5  Y3:258:133.5 S7.5   ; Measured leadscrew locations, I think my endstops are messed up
 
 ; Endstops
 M574 X1 S1 P"io0.in"                         ; configure active-high endstop for high end on X via pin io1.in
@@ -47,7 +47,7 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 ; Z-Probe
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T6000             ; set Z probe type to bltouch and the dive height + speeds
-G31 P500 X-2.8 Y43 Z2                        ; set Z probe trigger value, offset and trigger height
+G31 P500 X-2.8 Y43 Z1.05                     ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling moved to macros/gridProbe
 ; M557 X10:295 Y10:295 S57                   ; define mesh grid, elmoret's coordinates
