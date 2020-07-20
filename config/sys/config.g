@@ -19,24 +19,35 @@ M569 P0.5 S0 D3                              ; Z Front Left 0.5 goes backwards
 M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3             ; set drive mapping
 M350 X32 Y32 Z16 E32 I1                      ; configure microstepping with interpolation
 M92 X400.00 Y400.00 Z3200.00 E1674.00        ; set steps per mm
-M566 X840.00 Y840.00 Z96.00 E1500.00         ; set maximum instantaneous speed changes (mm/min)
-M203 X24000.00 Y24000.00 Z720.00 E3600.00    ; set maximum speeds (mm/min)
-; M203 X9600.00 Y9600.00 Z900.00 E3600.00    ; set maximum speeds (mm/min) - May need to slow down X&Y for CoreXY kinematics
-M201 X2500.00 Y2500.00 Z100.00 E1500.00      ; set accelerations (mm/s^2)
 M906 X1600 Y1600 Z1600 E1100 I30             ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                      ; Set idle timeout
+
+; Speeds
+M203 X24000.00 Y24000.00 Z720.00 E3600.00    ; set maximum speeds (mm/min)
+M201 X2500.00  Y2500.00  Z100.00 E1500.00    ; set accelerations (mm/s^2)
+M566 X500.00   Y500.00   Z24.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
+M204 P1000 T2500                             ; use 1000mm/s² acceleration for print moves and 2500mm/s² for travel moves
 
 ; From cheeseandham on Discord, June 20, 2020
 ; M201 X4000 Y4000 Z100 E1500       ; Accelerations (mm/s^2)
 ; M203 X24000 Y24000 Z800 E3600     ; Maximum speeds (mm/min)
 ; M566 X1000 Y1000 Z100 E1500       ; Maximum jerk speeds mm/minute
 
+; Trinamic Drive Tuning
+; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
+; and tune thigh (H) to avoid shifting into fullstep mode
+M569 P0.0 V125  H5                                    ; E            - Set tpwmthrs so StealthChop runs up to 36.1mm/sec
+M569 P0.1 V30   H5                                    ; X            - Set tpwmthrs so StealthChop runs up to 125mm/sec
+M569 P0.2 V30   H5                                    ; Y            - Set tpwmthrs so StealthChop runs up to 125mm/sec
+M569 P0.3 V15   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 25mm/sec
+M569 P0.4 V15   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 25mm/sec
+M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 25mm/sec
+
 ; Axis Limits
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
 M208 X295 Y285 Z575 S0                       ; set axis maxima
 
 ;Leadscrew locations
-; M671 X-10:-10:333  Y22.5:277.5:150 S7.5    ; Starting estimate, measure real values
 M671 X-42.5:-42.5:377.5  Y3:258:133.5 S7.5   ; Measured leadscrew locations, I think my endstops are messed up
 
 ; Endstops
@@ -50,7 +61,6 @@ M558 P9 C"^io7.in" H5 F120 T6000             ; set Z probe type to bltouch and t
 G31 P500 X-2.8 Y43 Z1.05                     ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling moved to macros/gridProbe
-; M557 X10:295 Y10:295 S57                   ; define mesh grid, elmoret's coordinates
 M557 X102.7:227.7 Y81.5:196.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates																
 
 ; Heaters
@@ -63,11 +73,7 @@ M308 S1 P"temp2" Y"pt1000" A"Hotend" R2200          ; configure nozzle, sensor 1
 M950 H1 C"out2" T1                                  ; create nozzle heater output on out2 and map it to sensor 1
 M307 H1 B0 S1.00                                    ; disable bang-bang mode for heater  and set PWM limit
 M143 H1 S350                                        ; set temperature limit for nozzle
-
-; TODO is this the right thermistor?
 M308 S2 P"temp1" Y"thermistor" A"Keenovo" T100000 B3950 ; configure keenovo thermistor, sensor 2, as thermistor on pin temp1
-
-
 
 ; Fans
 M950 F0 C"out8" Q500                         ; create fan 0 on pin out5 and set its frequency
