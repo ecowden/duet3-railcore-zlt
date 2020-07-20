@@ -10,7 +10,7 @@ M550 P"Railcore"                             ; set printer name, must match Linu
 M669 K1                                      ; select CoreXY mode
 
 ; Drives
-M569 P0.0 S1 D3                              ; Extruder     0.0 goes forwards
+M569 P0.0 S0 D3                              ; Extruder     0.0 goes backwards
 M569 P0.1 S1 D3                              ; Y / Front    0.1 goes forwards
 M569 P0.2 S0 D3                              ; X / Rear     0.2 goes backwards
 M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards
@@ -74,6 +74,18 @@ M950 H1 C"out2" T1                                  ; create nozzle heater outpu
 M307 H1 B0 S1.00                                    ; disable bang-bang mode for heater  and set PWM limit
 M143 H1 S350                                        ; set temperature limit for nozzle
 M308 S2 P"temp1" Y"thermistor" A"Keenovo" T100000 B3950 ; configure keenovo thermistor, sensor 2, as thermistor on pin temp1
+
+; Bed PID Tune @ 60°C
+; Heater 0 model: gain 411.9, time constant 999.2, dead time 10.1, max PWM 1.00, calibration voltage 23.8, mode PID
+; Computed PID parameters for setpoint change: P42.8, I0.426, D303.1
+; Computed PID parameters for load change: P42.8, I1.178, D303.1
+M307 H0 A411.9 C999.2 D10.1 S1.0 V23.8 B0
+
+; Hotend PID Tune @ 215°C with 100% fan
+; Heater 1 model: gain 329.7, time constant 105.6, dead time 2.4, max PWM 1.00, calibration voltage 23.8, mode PID
+; Computed PID parameters for setpoint change: P24.1, I1.525, D40.0
+; Computed PID parameters for load change: P24.1, I3.456, D40.0
+M307 H1 A329.7 C105.6 D2.4 S1.0 V23.8 B0
 
 ; Fans
 M950 F0 C"out8" Q500                         ; create fan 0 on pin out5 and set its frequency
