@@ -64,7 +64,7 @@ G31 P500 X-2.8 Y43 Z1.05                     ; set Z probe trigger value, offset
 M557 X102.7:227.7 Y81.5:196.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates																
 
 ; Heaters
-M308 S0 P"temp0" Y"thermistor" A"Bed" T100000 B4240 ; configure bed, sensor 0, as thermistor on pin temp0
+M308 S0 P"temp0" Y"thermistor" A"Bed" T100000 B3950 ; configure bed, sensor 0, as thermistor on pin temp0
 M950 H0 C"out1" T0                                  ; create bed heater output on out1 and map it to sensor 0
 M307 H0 B1 S1.00                                    ; enable bang-bang mode for the bed heater and set PWM limit
 M140 H0                                             ; map heated bed to heater 0
