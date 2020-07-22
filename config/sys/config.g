@@ -17,13 +17,13 @@ M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards
 M569 P0.4 S0 D3                              ; Z Rear Left  0.4 goes backwards
 M569 P0.5 S0 D3                              ; Z Front Left 0.5 goes backwards
 M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3             ; set drive mapping
-M350 X32 Y32 Z16 E32 I1                      ; configure microstepping with interpolation
-M92 X400.00 Y400.00 Z3200.00 E1674.00        ; set steps per mm
+M350 X32 Y32 Z32 E32 I1                      ; configure microstepping with interpolation
+M92 X400.00 Y400.00 Z6400.00 E1674.00        ; set steps per mm
 M906 X1600 Y1600 Z1600 E1100 I30             ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                      ; Set idle timeout
 
 ; Speeds
-M203 X24000.00 Y24000.00 Z720.00 E3600.00    ; set maximum speeds (mm/min)
+M203 X24000.00 Y24000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
 M201 X2500.00  Y2500.00  Z100.00 E1500.00    ; set accelerations (mm/s^2)
 M566 X500.00   Y500.00   Z24.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
 M204 P1000 T2500                             ; use 1000mm/s² acceleration for print moves and 2500mm/s² for travel moves
@@ -39,13 +39,14 @@ M204 P1000 T2500                             ; use 1000mm/s² acceleration for p
 M569 P0.0 V125  H5                                    ; E            - Set tpwmthrs so StealthChop runs up to 36.1mm/sec
 M569 P0.1 V30   H5                                    ; X            - Set tpwmthrs so StealthChop runs up to 125mm/sec
 M569 P0.2 V30   H5                                    ; Y            - Set tpwmthrs so StealthChop runs up to 125mm/sec
-M569 P0.3 V15   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 25mm/sec
-M569 P0.4 V15   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 25mm/sec
-M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 25mm/sec
+M569 P0.3 V15   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
+M569 P0.4 V15   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
+M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
 
 ; Axis Limits
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
-M208 X295 Y285 Z600 S0                       ; set axis maxima
+M208 X285 Y285 Z615 S0                       ; set axis maxima, reduced because of extra-far fan mounting
+; M208 X295 Y285 Z615 S0                       ; set axis maxima
 
 ;Leadscrew locations
 M671 X-42.5:-42.5:377.5  Y3:258:133.5 S7.5   ; Measured leadscrew locations, I think my endstops are messed up
@@ -100,7 +101,10 @@ M563 P0 S"Mosquito" D0 H1 F0:1               ; define tool 0
 G10 P0 X0 Y0 Z0                              ; set tool 0 axis offsets
 G10 P0 R0 S0                                 ; set initial tool 0 active and standby temperatures to 0C
 
-; Custom settings are not defined
+; Dynamic Acceleration
+; https://duet3d.dozuki.com/Wiki/Gcode#Section_M593_Configure_Dynamic_Acceleration_Adjustment
+; Divide speed in mm/sec by distance between ringing artifacts in mm
+M593 F{ 80 / 2.62 }
 
 ; Miscellaneous
 M308 S10 P"mcu-temp" Y"mcu-temp" A"MCU"      ; Set MCU temp on Sensor 10
