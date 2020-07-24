@@ -58,7 +58,7 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 
 ; Z-Probe
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
-M558 P9 C"^io7.in" H5 F120 T6000             ; set Z probe type to bltouch and the dive height + speeds
+M558 P9 C"^io7.in" H5 F120 T99999            ; set Z probe type to bltouch and the dive height + speeds
 G31 P500 X-2.8 Y43 Z1.05                     ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling moved to macros/gridProbe
@@ -67,7 +67,7 @@ M557 X102.7:227.7 Y81.5:196.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spre
 ; Heaters
 M308 S0 P"temp0" Y"thermistor" A"Bed" T100000 B3950 ; configure bed, sensor 0, as thermistor on pin temp0
 M950 H0 C"out1" T0                                  ; create bed heater output on out1 and map it to sensor 0
-M307 H0 B1 S1.00                                    ; enable bang-bang mode for the bed heater and set PWM limit
+M307 H0 B0 S1.00 F60                                ; enable PID mode for the bed heater and set PWM limit and rate
 M140 H0                                             ; map heated bed to heater 0
 M143 H0 S120                                        ; set temperature limit for bed, heater 0, to 120C
 M308 S1 P"temp2" Y"pt1000" A"Hotend" R2200          ; configure nozzle, sensor 1, as PT1000 on pin temp2
@@ -80,7 +80,7 @@ M308 S2 P"temp1" Y"thermistor" A"Keenovo" T100000 B3950 ; configure keenovo ther
 ; Heater 0 model: gain 411.9, time constant 999.2, dead time 10.1, max PWM 1.00, calibration voltage 23.8, mode PID
 ; Computed PID parameters for setpoint change: P42.8, I0.426, D303.1
 ; Computed PID parameters for load change: P42.8, I1.178, D303.1
-M307 H0 A411.9 C999.2 D10.1 S1.0 V23.8 B0
+M307 H0 A411.9 C999.2 D10.1 S1.0 V23.8 B0 F60
 
 ; Hotend PID Tune @ 215°C with 100% fan
 ; Heater 1 model: gain 329.7, time constant 105.6, dead time 2.4, max PWM 1.00, calibration voltage 23.8, mode PID

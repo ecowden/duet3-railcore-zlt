@@ -10,4 +10,4 @@ G30 P0 X102.7 Y81.5 Z-99999		; Define 4 points in a clockwise direction around t
 G30 P1 X227.7 Y81.5 Z-99999																			
 G30 P2 X227.7 Y196.5 Z-99999																			
 G30 P3 X102.7 Y196.5 Z-99999 S3	; ...after fourth point, tram bed																		
-G1 X10 Y10 F5000                ; Go home
+G1 X10 Y10 F99999               ; Go home ASAP

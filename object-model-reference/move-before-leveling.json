@@ -1,0 +1,241 @@
+{
+    "axes": [
+        {
+            "acceleration": 2500.0,
+            "babystep": 0,
+            "current": 1600,
+            "drivers": [
+                "0.2"
+            ],
+            "homed": true,
+            "jerk": 500.0,
+            "letter": "X",
+            "machinePosition": 10.000,
+            "max": 285.00,
+            "maxProbed": false,
+            "microstepping": {
+                "interpolated": true,
+                "value": 32
+            },
+            "min": 0,
+            "minProbed": false,
+            "speed": 24000.0,
+            "stepsPerMm": 400.00,
+            "userPosition": 10.000,
+            "visible": true,
+            "workplaceOffsets": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        {
+            "acceleration": 2500.0,
+            "babystep": 0,
+            "current": 1600,
+            "drivers": [
+                "0.1"
+            ],
+            "homed": true,
+            "jerk": 500.0,
+            "letter": "Y",
+            "machinePosition": 10.000,
+            "max": 285.00,
+            "maxProbed": false,
+            "microstepping": {
+                "interpolated": true,
+                "value": 32
+            },
+            "min": 0,
+            "minProbed": false,
+            "speed": 24000.0,
+            "stepsPerMm": 400.00,
+            "userPosition": 10.000,
+            "visible": true,
+            "workplaceOffsets": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        {
+            "acceleration": 100.0,
+            "babystep": 0,
+            "current": 1600,
+            "drivers": [
+                "0.5",
+                "0.4",
+                "0.3"
+            ],
+            "homed": true,
+            "jerk": 24.0,
+            "letter": "Z",
+            "machinePosition": 50.000,
+            "max": 615.00,
+            "maxProbed": false,
+            "microstepping": {
+                "interpolated": true,
+                "value": 32
+            },
+            "min": 0.15,
+            "minProbed": false,
+            "speed": 480.0,
+            "stepsPerMm": 6400.00,
+            "userPosition": 50.000,
+            "visible": true,
+            "workplaceOffsets": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    ],
+    "calibration": {
+        "final": {
+            "deviation": 0,
+            "mean": 0
+        },
+        "initial": {
+            "deviation": 0,
+            "mean": 0
+        },
+        "numFactors": 0
+    },
+    "compensation": {
+        "fadeHeight": null,
+        "probeGrid": {
+            "radius": -1.0,
+            "xMax": 227.7,
+            "xMin": 102.7,
+            "xSpacing": 125.0,
+            "yMax": 196.5,
+            "yMin": 81.5,
+            "ySpacing": 115.0
+        },
+        "skew": {
+            "tanXY": 0,
+            "tanXZ": 0,
+            "tanYZ": 0
+        },
+        "type": "none"
+    },
+    "currentMove": {
+        "acceleration": 0,
+        "deceleration": 0,
+        "requestedSpeed": 0,
+        "topSpeed": 0
+    },
+    "daa": {
+        "enabled": true,
+        "minimumAcceleration": 10.0,
+        "period": 0.0
+    },
+    "extruders": [
+        {
+            "acceleration": 1500.0,
+            "current": 1100,
+            "driver": "0.0",
+            "factor": 1.00,
+            "filament": "",
+            "jerk": 1500.0,
+            "microstepping": {
+                "interpolated": true,
+                "value": 32
+            },
+            "nonlinear": {
+                "a": 0,
+                "b": 0,
+                "upperLimit": 0.20
+            },
+            "position": 0,
+            "pressureAdvance": 0,
+            "rawPosition": 0,
+            "speed": 3600.0,
+            "stepsPerMm": 1674.00
+        }
+    ],
+    "idle": {
+        "factor": 0.3,
+        "timeout": 30.0
+    },
+    "kinematics": {
+        "forwardMatrix": [
+            [
+                0.500,
+                0.500,
+                0
+            ],
+            [
+                0.500,
+                -0.500,
+                0
+            ],
+            [
+                0,
+                0,
+                1.000
+            ]
+        ],
+        "inverseMatrix": [
+            [
+                0.500,
+                0.500,
+                0
+            ],
+            [
+                0.500,
+                -0.500,
+                0
+            ],
+            [
+                0,
+                0,
+                1.000
+            ]
+        ],
+        "name": "coreXY",
+        "tiltCorrection": {
+            "correctionFactor": 1.0,
+            "lastCorrections": [
+                0,
+                0,
+                0
+            ],
+            "maxCorrection": 7.5,
+            "screwPitch": 0.50,
+            "screwX": [
+                -42.5,
+                -42.5,
+                377.5
+            ],
+            "screwY": [
+                3.0,
+                258.0,
+                133.5
+            ]
+        }
+    },
+    "printingAcceleration": 1000.0,
+    "speedFactor": 1.00,
+    "travelAcceleration": 2500.0,
+    "virtualEPos": 0,
+    "workspaceNumber": 1
+}
