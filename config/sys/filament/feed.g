@@ -2,6 +2,10 @@
 ; Feed filament during loading
 ; assumes that extruder is already at temperature
 ;
+
+if move.axes[2].machinePosition < 25
+    G1 Z25
+
 M83                                      ; relative extruder moves
 M116 P0                                  ; Wait for the tool temperature to be reached
 G1 E70 F3000                             ; Extrude 70mm of filament at 3000mm/min
