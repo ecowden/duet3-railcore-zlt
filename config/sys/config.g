@@ -26,7 +26,7 @@ M84 S30                                      ; Set idle timeout
 M203 X30000.00 Y30000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
 M201 X4000.00  Y4000.00  Z100.00 E1500.00    ; set accelerations (mm/s^2)
 M566 X500.00   Y500.00   Z24.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1000 T4000                             ; use 1000mm/s² acceleration for print moves and 2500mm/s² for travel moves
+M204 P1000 T4000                             ; use 1000mm/s² acceleration for print moves and 4000mm/s² for travel moves
 
 ; From cheeseandham on Discord, June 20, 2020
 ; M201 X4000 Y4000 Z100 E1500       ; Accelerations (mm/s^2)
