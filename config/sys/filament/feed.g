@@ -3,7 +3,7 @@
 ; assumes that extruder is already at temperature
 ;
 
-if move.axes[2].machinePosition < 25
+if move.axes[2].machinePosition < 25     ; ensure nozzle is off the print bed to avoid a big blob
     G1 Z25
 
 M83                                      ; relative extruder moves
