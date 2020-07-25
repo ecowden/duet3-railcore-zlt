@@ -11,4 +11,4 @@ while iterations < 2
     G1 X{move.axes[0].max - 10} Y{move.axes[1].max - 10} F99999
     G1 X{move.axes[0].min + 10} Y{move.axes[1].max - 10} F99999
 
-G1 X{move.axes[0].min + 10} Y{move.axes[1].min + 10}     F99999
+G1 X{move.axes[0].min + 10} Y{move.axes[1].min + 10}     F99999   ; move back to home position
