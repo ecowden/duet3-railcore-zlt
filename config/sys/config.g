@@ -78,11 +78,11 @@ M308 S2 P"temp1" Y"thermistor" A"Keenovo" T100000 B3950 ; configure keenovo ther
 ; Computed PID parameters for load change: P46.0, I1.445, D315.8
 M307 H0 A253.8 C641.6 D9.8 S1.0 V23.8 B0
 
-; Hotend PID Tune @ 215°C with 100% fan
-; Heater 1 model: gain 329.7, time constant 105.6, dead time 2.4, max PWM 1.00, calibration voltage 23.8, mode PID
-; Computed PID parameters for setpoint change: P24.1, I1.525, D40.0
-; Computed PID parameters for load change: P24.1, I3.456, D40.0
-M307 H1 A329.7 C105.6 D2.4 S1.0 V23.8 B0
+; Hotend PID Tune @ 215°C with 100% fan at 25mm z-height
+; Heater 1 model: gain 356.9, time constant 121.1, dead time 2.4, max PWM 1.00, calibration voltage 23.8, mode PID
+; Computed PID parameters for setpoint change: P25.3, I1.483, D42.4
+; Computed PID parameters for load change: P25.3, I3.469, D42.4
+M307 H1 A356.9 C121.1 D2.4 S1.0 V23.8 B0
 
 ; Fans
 M950 F0 C"out8" Q500                         ; create fan 0 on pin out5 and set its frequency
