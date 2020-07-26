@@ -44,7 +44,7 @@ M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmt
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
 M208 X285 Y285 Z615 S0                       ; set axis maxima, reduced because of extra-far fan mounting
 
-;Leadscrew locations
+; Leadscrew locations
 M671 X-42.5:-42.5:377.5  Y3:258:133.5 S7.5   ; Measured leadscrew locations, I think my endstops are messed up
 
 ; Endstops
@@ -57,7 +57,7 @@ M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T99999            ; set Z probe type to bltouch and the dive height + speeds
 G31 P500 X-2.8 Y43 Z1.05                     ; set Z probe trigger value, offset and trigger height
 
-; Mesh bed leveling moved to macros/gridProbe
+; Mesh bed leveling
 M557 X102.7:227.7 Y81.5:196.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates																
 
 ; Heaters
