@@ -42,7 +42,7 @@ M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmt
 
 ; Axis Limits
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
-M208 X285 Y285 Z615 S0                       ; set axis maxima, reduced because of extra-far fan mounting
+M208 X300 Y285 Z615 S0                       ; set axis maxima, reduced because of extra-far fan mounting
 
 ; Leadscrew locations
 M671 X-42.5:-42.5:377.5  Y3:258:133.5 S7.5   ; Measured leadscrew locations, I think my endstops are messed up
