@@ -62,8 +62,8 @@ M557 X102.7:227.7 Y81.5:196.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spre
 
 ; Heaters
 M308 S0 P"temp0" Y"thermistor" A"Bed" T100000 B3950 ; configure bed, sensor 0, as thermistor on pin temp0
-M950 H0 C"out1" T0                                  ; create bed heater output on out1 and map it to sensor 0
-M307 H0 B0 S1.00 F60                                ; enable PID mode for the bed heater and set PWM limit and rate
+M950 H0 C"out1" T0 Q60                              ; create bed heater output on out1 and map it to sensor 0
+M307 H0 B0 S1.00                                    ; enable PID mode for the bed heater and set PWM limit and rate
 M140 H0                                             ; map heated bed to heater 0
 M143 H0 S120                                        ; set temperature limit for bed, heater 0, to 120C
 M308 S1 P"temp2" Y"pt1000" A"Hotend" R2200          ; configure nozzle, sensor 1, as PT1000* on pin temp2
@@ -72,11 +72,11 @@ M307 H1 B0 S1.00                                    ; disable bang-bang mode for
 M143 H1 S350                                        ; set temperature limit for nozzle
 M308 S2 P"temp1" Y"thermistor" A"Keenovo" T100000 B3950 ; configure keenovo thermistor, sensor 2, as thermistor on pin temp1
 
-; Bed PID Tune @ 60°C
-; Heater 0 model: gain 411.9, time constant 999.2, dead time 10.1, max PWM 1.00, calibration voltage 23.8, mode PID
-; Computed PID parameters for setpoint change: P42.8, I0.426, D303.1
-; Computed PID parameters for load change: P42.8, I1.178, D303.1
-M307 H0 A411.9 C999.2 D10.1 S1.0 V23.8 B0 F60
+; Bed PID Tune @ 60°C with 50% fan at 25mm z-height
+; Heater 0 model: gain 253.8, time constant 641.6, dead time 9.8, max PWM 1.00, calibration voltage 23.8, mode PID
+; Computed PID parameters for setpoint change: P46.0, I0.579, D315.8
+; Computed PID parameters for load change: P46.0, I1.445, D315.8
+M307 H0 A253.8 C641.6 D9.8 S1.0 V23.8 B0
 
 ; Hotend PID Tune @ 215°C with 100% fan
 ; Heater 1 model: gain 329.7, time constant 105.6, dead time 2.4, max PWM 1.00, calibration voltage 23.8, mode PID
