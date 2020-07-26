@@ -5,6 +5,11 @@
 M561              ; clear bed transform
 G91               ; relative positioning
 G1 H2 Z5 F6000    ; lift Z relative to current position
+
+; Trinamic tuning
+G1 H2 Y-0.005           ; just enough movement to energize steppers
+G4 P150                 ; pause for 150ms
+
 G1 H1 Y-350 F3000 ; move quickly to Y axis endstop and stop there (first pass)
 G1 Y5 F6000       ; go back a few mm
 G1 H1 Y-10 F600   ; move slowly to Y axis endstop once more (second pass)
