@@ -19,13 +19,13 @@ M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards  
 M569 P0.4 S0 D3                              ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.5 S0 D3                              ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
 M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3             ; set drive mapping
-M350 X16 Y16 Z32 E32 I1                      ; configure microstepping with interpolation
-M92 X200.00 Y200.00 Z6400.00 E1674.00        ; set steps per mm
+M350 X32 Y32 Z32 E32 I1                      ; configure microstepping with interpolation
+M92 X400.00 Y400.00 Z6400.00 E1674.00        ; set steps per mm
 M906 X1600 Y1600 Z1600 E1100 I30             ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                      ; Set idle timeout
 
 ; Speeds
-M203 X30000.00 Y30000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
+M203 X24000.00 Y24000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
 M201 X2000.00  Y2000.00  Z80.00  E1500.00    ; set accelerations (mm/s^2)
 M566 X500.00   Y500.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
 M204 P1000 T2000                             ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
