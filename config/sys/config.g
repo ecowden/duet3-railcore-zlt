@@ -13,28 +13,28 @@ M669 K1                                      ; select CoreXY mode
 
 ; Drives
 M569 P0.0 S0 D3                              ; Extruder     0.0 goes backwards  0.9° LDO "Slim Power" 
-M569 P0.1 S1 D3                              ; Y / Front    0.1 goes forwards   0.9° Moons MS17HA6P4200*
-M569 P0.2 S0 D3                              ; X / Rear     0.2 goes backwards  0.9° Moons MS17HA6P4200*
+M569 P0.1 S1 D3                              ; Y / Front    0.1 goes backwards  1.8° Trinamic QSH4218-51-10-049*
+M569 P0.2 S1 D3                              ; X / Rear     0.2 goes forwards   1.8° Trinamic QSH4218-51-10-049*
 M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.4 S0 D3                              ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.5 S0 D3                              ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
 M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3             ; set drive mapping
-M350 X32 Y32 Z32 E32 I1                      ; configure microstepping with interpolation
+M350 X64 Y64 Z32 E32 I1                      ; configure microstepping with interpolation
 M92 X400.00 Y400.00 Z6400.00 E1674.00        ; set steps per mm
-M906 X1600 Y1600 Z1600 E1100 I30             ; set motor currents (mA) and motor idle factor in per cent
+M906 X800   Y800    Z1600    E1100 I30       ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                      ; Set idle timeout
 
 ; Speeds
-M203 X24000.00 Y24000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
+M203 X12000.00 Y12000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
 M201 X4000.00  Y4000.00  Z80.00  E1500.00    ; set accelerations (mm/s^2)
 
 ; "Normal" Jerk and accelerations
 M566 X500.00   Y500.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-; M204 1000 T2000                              ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
+M204 1000 T2000                              ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
 
 ; High-Speed Jerk and Accelerations
 ; M566 X1000.00  Y1000.00  Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P2000 T4000                             ; use 2000mm/s² acceleration for print moves and 4000mm/s² for travel moves
+; M204 P2000 T4000                             ; use 2000mm/s² acceleration for print moves and 4000mm/s² for travel moves
 
 ; "Extra Nice" Jerk and accelerations
 ; M566 X250.00   Y250.00   Z20.00  E1500.00   ; set maximum jerk (instantaneous speed changes) (mm/min)
@@ -44,8 +44,8 @@ M204 P2000 T4000                             ; use 2000mm/s² acceleration for p
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
 ; and tune thigh (H) to avoid shifting into fullstep mode
 M569 P0.0 V125  H5                                    ; E            - Set tpwmthrs so StealthChop runs up to 7.2mm/sec
-M569 P0.1 V30   H5                                    ; X            - Set tpwmthrs so StealthChop runs up to 125mm/sec
-M569 P0.2 V30   H5                                    ; Y            - Set tpwmthrs so StealthChop runs up to 125mm/sec
+M569 P0.1 V60   H5                                    ; X            - Set tpwmthrs so StealthChop runs up to 125mm/sec
+M569 P0.2 V60   H5                                    ; Y            - Set tpwmthrs so StealthChop runs up to 125mm/sec
 M569 P0.3 V15   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
 M569 P0.4 V15   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
 M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
