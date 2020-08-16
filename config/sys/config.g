@@ -13,42 +13,45 @@ M669 K1                                      ; select CoreXY mode
 
 ; Drives
 M569 P0.0 S0 D3                              ; Extruder     0.0 goes backwards  0.9° LDO "Slim Power" 
-M569 P0.1 S1 D3                              ; Y / Front    0.1 goes forwards   0.9° Moons MS17HA6P4200*
-M569 P0.2 S0 D3                              ; X / Rear     0.2 goes backwards  0.9° Moons MS17HA6P4200*
+M569 P0.1 S1 D3                              ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA8L4360*
+M569 P0.2 S0 D3                              ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA8L4360*
 M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.4 S0 D3                              ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.5 S0 D3                              ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
 M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3             ; set drive mapping
 M350 X32 Y32 Z32 E32 I1                      ; configure microstepping with interpolation
-M92 X400.00 Y400.00 Z6400.00 E1674.00        ; set steps per mm
-M906 X1600 Y1600 Z1600 E1100 I30             ; set motor currents (mA) and motor idle factor in per cent
-M84 S30                                      ; Set idle timeout
+
+; Steps on X & Y
+;   = steps per rotation / (pulley teeth * belt spacing) * microstep multiplier
+;     0.9° degree stepper has 400 steps per rotation, 1.8° stepper has 200
+M92 X{400 / (18 * 2) * 32} Y{400 / (18 * 2) * 32} Z6400.00 E1674.00  ; set steps per mm
+
+; Motor current
+;   = Max stepper rating in milliamps * 0.8
+;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
+;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
+M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I30           ; set motor currents (mA) and motor idle factor in per cent
+M84 S30                                                            ; Set idle timeout
 
 ; Speeds
 M203 X24000.00 Y24000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
 M201 X4000.00  Y4000.00  Z80.00  E1500.00    ; set accelerations (mm/s^2)
 
-; "Normal" Jerk and accelerations
-M566 X500.00   Y500.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-; M204 1000 T2000                              ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
-
-; High-Speed Jerk and Accelerations
-; M566 X1000.00  Y1000.00  Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P2000 T4000                             ; use 2000mm/s² acceleration for print moves and 4000mm/s² for travel moves
-
-; "Extra Nice" Jerk and accelerations
-; M566 X250.00   Y250.00   Z20.00  E1500.00   ; set maximum jerk (instantaneous speed changes) (mm/min)
-; M204 P500 T2000                             ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
+; Jerk and accelerations
+; M566 X500.00   Y500.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
+M566 X300.00   Y300.00   Z20.00  E1500.00   ; set maximum jerk (instantaneous speed changes) (mm/min)
+M204 1000 T2000                              ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
 ; and tune thigh (H) to avoid shifting into fullstep mode
 M569 P0.0 V125  H5                                    ; E            - Set tpwmthrs so StealthChop runs up to 7.2mm/sec
-M569 P0.1 V30   H5                                    ; X            - Set tpwmthrs so StealthChop runs up to 125mm/sec
-M569 P0.2 V30   H5                                    ; Y            - Set tpwmthrs so StealthChop runs up to 125mm/sec
+M569 P0.1 V40   H5                                    ; X            - Set tpwmthrs so StealthChop runs up to 105.5mm/sec
+M569 P0.2 V40   H5                                    ; Y            - Set tpwmthrs so StealthChop runs up to 105.5mm/sec
 M569 P0.3 V15   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
 M569 P0.4 V15   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
 M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
+M915 X Y T20000                                       ; Set CoolStep threshold super low
 
 ; Axis Limits
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
@@ -65,7 +68,7 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 ; Z-Probe
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T99999            ; set Z probe type to bltouch and the dive height + speeds
-G31 P500 X-2.8 Y43 Z1.05                     ; set Z probe trigger value, offset and trigger height
+G31 P500 X-2.8 Y43 Z0.75                     ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling
 M557 X102.7:227.7 Y81.5:196.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates																
@@ -110,7 +113,7 @@ G10 P0 R0 S0                                 ; set initial tool 0 active and sta
 ; Dynamic Acceleration
 ; https://duet3d.dozuki.com/Wiki/Gcode#Section_M593_Configure_Dynamic_Acceleration_Adjustment
 ; Divide speed in mm/sec by distance between ringing artifacts in mm
-M593 F{ 80 / 2.62 } L4
+; M593 F{ 80 / 2.62 } L4
 
 ; Miscellaneous
 M308 S10 P"mcu-temp" Y"mcu-temp" A"MCU"      ; Set MCU temp on Sensor 10
