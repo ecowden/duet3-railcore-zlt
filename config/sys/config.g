@@ -38,15 +38,15 @@ M203 X24000.00 Y24000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
 M201 X4000.00  Y4000.00  Z80.00  E1500.00    ; set accelerations (mm/s^2)
 
 ; "Normal" Jerk and accelerations
-M566 X500.00   Y500.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-; M204 1000 T2000                              ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
+; M566 X500.00   Y500.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
+M204 1000 T2000                              ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
 
 ; High-Speed Jerk and Accelerations
 ; M566 X1000.00  Y1000.00  Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P2000 T4000                             ; use 2000mm/s² acceleration for print moves and 4000mm/s² for travel moves
+; M204 P2000 T4000                             ; use 2000mm/s² acceleration for print moves and 4000mm/s² for travel moves
 
 ; "Extra Nice" Jerk and accelerations
-; M566 X250.00   Y250.00   Z20.00  E1500.00   ; set maximum jerk (instantaneous speed changes) (mm/min)
+M566 X300.00   Y300.00   Z20.00  E1500.00   ; set maximum jerk (instantaneous speed changes) (mm/min)
 ; M204 P500 T2000                             ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
 
 ; Trinamic Drive Tuning
@@ -120,7 +120,7 @@ G10 P0 R0 S0                                 ; set initial tool 0 active and sta
 ; Dynamic Acceleration
 ; https://duet3d.dozuki.com/Wiki/Gcode#Section_M593_Configure_Dynamic_Acceleration_Adjustment
 ; Divide speed in mm/sec by distance between ringing artifacts in mm
-M593 F{ 80 / 2.62 } L4
+; M593 F{ 80 / 2.62 } L4
 
 ; Miscellaneous
 M308 S10 P"mcu-temp" Y"mcu-temp" A"MCU"      ; Set MCU temp on Sensor 10
