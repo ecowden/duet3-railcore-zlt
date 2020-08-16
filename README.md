@@ -14,7 +14,5 @@ several variations I've been using for reference.
 ## Contents
 
 * `/config/...` The real configs
-* `/reference/duet2-from-filastruder` Duet2 configs downloaded from Filastruder's page on the Railcore II ZLT kit
-* `/reference/duet2-from-github` Duet2 configs from the project's GitHub repo
-* `/reference/duet3-rrf3.0-300ZL-from-steve` An early version of Duet3 configs at RRF v3.0 from one of the project creators
+* `/reference/object-model` A few exported RRF3 object models for reference while scripting
 * `config.json` The export from the RRF3 configurator site
