@@ -51,11 +51,12 @@ M204 P1000 T2000                              ; use 1000mm/s² acceleration for 
 M569 P0.0 V125  H5                                    ; E            - Set tpwmthrs so StealthChop runs up to 7.2mm/sec
 M569 P0.1 V400  H5 B1 F3 Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
 M569 P0.2 V400  H5 B1 F3 Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.3 V15   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
-M569 P0.4 V15   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
-M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
-; M915 X Y T20                                        ; Set CoolStep threshold to 210.9mm/sec
-M915 X Y T40                                          ; Set CoolStep threshold to 105.5mm/sec
+M569 P0.3 V30   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
+M569 P0.4 V30   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
+M569 P0.5 V30   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
+M915 X Y T40                                          ; X & Y        - Set CoolStep threshold to 105.5mm/sec
+M915 Z   T30                                          ; Z            - Set CoolStep threshold to 15.6mm/sec
+M915 E   T125                                         ; E            - Set CoolStep threshold to 7.2mm/sec
 
 ; Axis Limits
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
