@@ -9,6 +9,7 @@ several variations I've been using for reference.
 * Duet 3
 * Moons [MS23HA8L4360](https://www.moonsindustries.com/p/nema-23-high-precision-hybrid-stepper-motors/ms23ha8l4360-000004611110015316) 0.9° NEMA23 steppers on X & Y, with 18-tooth pulleys
 * Moons [MS17HA6P4200](https://www.moonsindustries.com/p/nema-17-high-precision-hybrid-stepper-motors/ms17ha6p4200-000004611110015926) 0.9° steppers on Z (standard are 1.8°)
+* Hotend is a Slice Mosquito Magnum
 * PT1000 temperature sensor on hotend
 
 ## Contents
