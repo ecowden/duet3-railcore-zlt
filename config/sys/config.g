@@ -104,7 +104,7 @@ M307 H1 A356.9 C121.1 D2.4 S1.0 V23.8 B0
 
 ; Fans
 M950 F0 C"out8" Q500                         ; create fan 0 on pin out5 and set its frequency
-M106 P0 C"Hotend" S0.5 H1 T40                ; set fan 0 name and value. Thermostatic control is turned on
+M106 P0 C"Hotend" S0.5 H1 T40                ; set fan 0 name and value. Thermostatic control is turned on. *Fan is Slice Mosquito stock.
 M950 F1 C"out7" Q500                         ; create fan 1 on pin out4 and set its frequency
 M106 P1 C"Part" S0 H-1                       ; set fan 1 name and value. Thermostatic control is turned off
 M950 F2 C"!out6+out6.tach" Q25000            ; create fan 2 as PWM fan on pin out6 and set its frequency
