@@ -13,8 +13,8 @@ M669 K1                                      ; select CoreXY mode
 
 ; Drives
 M569 P0.0 S0 D3                              ; Extruder     0.0 goes backwards  0.9° LDO "Slim Power" 
-M569 P0.1 S1 D3                              ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA8L4360*
-M569 P0.2 S0 D3                              ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA8L4360*
+M569 P0.1 S1 D2                              ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA8L4360*
+M569 P0.2 S0 D2                              ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA8L4360*
 M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.4 S0 D3                              ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.5 S0 D3                              ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
@@ -45,14 +45,17 @@ M204 P1000 T2000                              ; use 1000mm/s² acceleration for 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
 ; and tune thigh (H) to avoid shifting into fullstep mode
+; B = Blank Time (tbl),       Default = 3
+; F = Off Time   (toff),      Default = 1
+; Y = Hysteresis (start:end), Default = 5:0
 M569 P0.0 V125  H5                                    ; E            - Set tpwmthrs so StealthChop runs up to 7.2mm/sec
-M569 P0.1 V400  H5                                    ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.2 V400  H5                                    ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
+M569 P0.1 V400  H5 B1 F3 Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
+M569 P0.2 V400  H5 B1 F3 Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
 M569 P0.3 V15   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
 M569 P0.4 V15   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
 M569 P0.5 V15   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 15.6mm/sec
-; M915 X Y T20                                          ; Set CoolStep threshold to 210.9mm/sec
-M915 X Y T10                                          ; Set CoolStep threshold to 421.9mm/sec
+; M915 X Y T20                                        ; Set CoolStep threshold to 210.9mm/sec
+M915 X Y T40                                          ; Set CoolStep threshold to 105.5mm/sec
 
 ; Axis Limits
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
