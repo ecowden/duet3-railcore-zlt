@@ -27,10 +27,10 @@ M350 X32 Y32 Z32 E32 I1                      ; configure microstepping with inte
 M92 X{400 / (18 * 2) * 32} Y{400 / (18 * 2) * 32} Z6400.00 E1674.00  ; set steps per mm
 
 ; Motor current
-;   = Max stepper rating in milliamps * 0.8
+;   = Max stepper rating in milliamps * 0.8, or other desired percentage between 0.0-1.0
 ;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
-M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I30           ; set motor currents (mA) and motor idle factor in per cent
+M906 X{3600 * 0.7} Y{3600 * 0.7} Z{2000 * 0.8} E1100 I30           ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                                            ; Set idle timeout
 
 ; Speeds
@@ -39,21 +39,25 @@ M201 X4000.00  Y4000.00  Z80.00  E1500.00    ; set accelerations (mm/s^2)
 
 ; Jerk and accelerations
 ; M566 X500.00   Y500.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M566 X300.00   Y300.00   Z20.00  E1500.00   ; set maximum jerk (instantaneous speed changes) (mm/min)
+M566 X200.00   Y200.00   Z20.00  E1500.00   ; set maximum jerk (instantaneous speed changes) (mm/min)
 M204 P1000 T2000                              ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
 
 ; Trinamic Drive Tuning
-; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
+; Tune tpwmthrs (V) so StealthChop runs at appropriate speeds
 ; and tune thigh (H) to avoid shifting into fullstep mode
-; B = Blank Time (tbl),       Default = 3
-; F = Off Time   (toff),      Default = 1
-; Y = Hysteresis (start:end), Default = 5:0
+; B = Blank Time (tbl),         Default = 3
+; F = Off Time   (toff),        Default = 1
+; Y = Hysteresis (hstart:hend), Default = 5:0
 M569 P0.0 V250  H5                                    ; E            - Set tpwmthrs so StealthChop runs up to 3.6mm/sec
-M569 P0.1 V400  H5 B1 F3 Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.2 V400  H5 B1 F3 Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
+M569 P0.1 V210  H5 Y4:0                               ; X            - Set tpwmthrs so StealthChop runs up to 20.1mm/sec
+M569 P0.2 V210  H5 Y4:0                               ; Y            - Set tpwmthrs so StealthChop runs up to 20.1mm/sec
 M569 P0.3 V60   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
 M569 P0.4 V60   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
 M569 P0.5 V60   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
+
+; Set CoolStep thresholds
+; These must be equal to or higher than SpreadCycle thresholds, 
+; since CoolStep will automatically engage SpreadCycle
 M915 X Y T20                                          ; X & Y        - Set CoolStep threshold to 210.9mm/sec
 M915 Z   T15                                          ; Z            - Set CoolStep threshold to 15.6mm/sec
 M915 E   T125                                         ; E            - Set CoolStep threshold to 7.2mm/sec
