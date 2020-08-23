@@ -38,25 +38,26 @@ M203 X24000.00 Y24000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
 M201 X4000.00  Y4000.00  Z80.00  E1500.00    ; set accelerations (mm/s^2)
 
 ; Jerk and accelerations
-; M566 X500.00   Y500.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M566 X300.00   Y300.00   Z20.00  E1500.00   ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1000 T2000                              ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
+M566 X240.00   Y240.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
+M204 P1000 T2000                             ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
 ; and tune thigh (H) to avoid shifting into fullstep mode
-; B = Blank Time (tbl),       Default = 3
-; F = Off Time   (toff),      Default = 1
+; B = Blank Time (tbl),       Default = 1
+; F = Off Time   (toff),      Default = 3
 ; Y = Hysteresis (start:end), Default = 5:0
-M569 P0.0 V250  H5                                    ; E            - Set tpwmthrs so StealthChop runs up to 3.6mm/sec
-M569 P0.1 V400  H5 B1 F3 Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.2 V400  H5 B1 F3 Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.3 V60   H5                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
-M569 P0.4 V60   H5                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
-M569 P0.5 V60   H5                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
-M915 X Y T20                                          ; X & Y        - Set CoolStep threshold to 210.9mm/sec
-M915 Z   T15                                          ; Z            - Set CoolStep threshold to 15.6mm/sec
-M915 E   T125                                         ; E            - Set CoolStep threshold to 7.2mm/sec
+M569 P0.0 V250  H1                                    ; E            - Set tpwmthrs so StealthChop runs up to 3.6mm/sec
+M569 P0.1 V400  H1       Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
+M569 P0.2 V400  H1       Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
+M569 P0.3 V60   H1                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
+M569 P0.4 V60   H1                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
+M569 P0.5 V60   H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
+
+; Avoid engaging CoolStep by setting very, very high thresholds
+M915 X Y T1                                           ; X & Y        - Set CoolStep threshold to 4218.8mm/sec
+M915 Z   T1                                           ; Z            - Set CoolStep threshold to 234.4mm/sec
+M915 E   T1                                           ; E            - Set CoolStep threshold to 896.1mm/sec
 
 ; Axis Limits
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
