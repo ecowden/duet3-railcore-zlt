@@ -12,7 +12,7 @@ M550 P"Railcore"                             ; set printer name, must match Linu
 M669 K1                                      ; select CoreXY mode
 
 ; Drives
-M569 P0.0 S0 D3                              ; Extruder     0.0 goes backwards  0.9° LDO "Slim Power" 
+M569 P0.0 S0 D2                              ; Extruder     0.0 goes backwards  0.9° LDO "Slim Power" 
 M569 P0.1 S1 D2                              ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA8L4360*
 M569 P0.2 S0 D2                              ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA8L4360*
 M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
