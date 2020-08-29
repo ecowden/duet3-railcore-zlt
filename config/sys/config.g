@@ -24,7 +24,7 @@ M350 X32 Y32 Z32 E32 I1                      ; configure microstepping with inte
 ; Steps on X & Y
 ;   = steps per rotation / (pulley teeth * belt spacing) * microstep multiplier
 ;     0.9° degree stepper has 400 steps per rotation, 1.8° stepper has 200
-M92 X{400 / (18 * 2) * 32} Y{400 / (18 * 2) * 32} Z6400.00 E1674.00  ; set steps per mm
+M92 X{400 / (17 * 2) * 32} Y{400 / (17 * 2) * 32} Z6400.00 E1674.00  ; set steps per mm
 
 ; Motor current
 ;   = Max stepper rating in milliamps * 0.8
@@ -39,7 +39,7 @@ M201 X4000.00  Y4000.00  Z80.00  E1500.00    ; set accelerations (mm/s^2)
 
 ; Jerk and accelerations
 M566 X240.00   Y240.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1000 T3000                             ; use 1000mm/s² acceleration for print moves and 3000mm/s² for travel moves
+M204 P1000 T2000                             ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
