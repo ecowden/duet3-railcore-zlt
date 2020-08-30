@@ -119,9 +119,13 @@ G10 P0 R0 S0                                 ; set initial tool 0 active and sta
 ; Dynamic Acceleration
 ; https://duet3d.dozuki.com/Wiki/Gcode#Section_M593_Configure_Dynamic_Acceleration_Adjustment
 ; Divide speed in mm/sec by distance between ringing artifacts in mm
-; M593 F{ 80 / 2.62 } L4
+M593 F{ 80 / 2.55 }
+
+; Clear Babystepping
 
 ; Miscellaneous
 M308 S10 P"mcu-temp" Y"mcu-temp" A"MCU"      ; Set MCU temp on Sensor 10
+M290 R0 S0                                   ; clear any babystepping
 T0                                           ; select first tool
+M703                                         ; configure any loaded filament
 
