@@ -55,9 +55,7 @@ M569 P0.4 V60   H1                                    ; Z Left Rear  - Set tpwmt
 M569 P0.5 V60   H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
 
 ; Avoid engaging CoolStep by setting very, very high thresholds
-M915 X Y T1                                           ; X & Y        - Set CoolStep threshold to 4218.8mm/sec
-M915 Z   T1                                           ; Z            - Set CoolStep threshold to 234.4mm/sec
-M915 E   T1                                           ; E            - Set CoolStep threshold to 896.1mm/sec
+M915 X Y Z E T1                                       ; Set CoolStep threshold to very high speed to effectively disable CoolStep
 
 ; Axis Limits
 M208 X0 Y0 Z0.15 S1                          ; set axis minima
