@@ -72,7 +72,7 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 ; Z-Probe
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T99999            ; set Z probe type to bltouch and the dive height + speeds
-G31 P500 X-2.8 Y43 Z0.75                     ; set Z probe trigger value, offset and trigger height
+G31 P500 X-2.8 Y43 Z3.25                     ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling
 M557 X102.7:227.7 Y81.5:196.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates																
