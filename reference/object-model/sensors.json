@@ -1,0 +1,71 @@
+{
+    "analog": [
+        {
+            "lastReading": 21.2,
+            "name": "Bed",
+            "type": "thermistor"
+        },
+        {
+            "lastReading": 27.2,
+            "name": "Hotend",
+            "type": "pt1000"
+        },
+        {
+            "lastReading": 21.1,
+            "name": "Keenovo",
+            "type": "thermistor"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+            "lastReading": 48.0,
+            "name": "MCU",
+            "type": "mcutemp"
+        }
+    ],
+    "endstops": [
+        {
+            "triggered": false,
+            "type": "inputPin"
+        },
+        {
+            "triggered": false,
+            "type": "inputPin"
+        },
+        {
+            "triggered": false,
+            "type": "zProbeAsEndstop"
+        }
+    ],
+    "filamentMonitors": [],
+    "gpIn": [],
+    "probes": [
+        {
+            "calibrationTemperature": 25.0,
+            "deployedByUser": false,
+            "disablesHeaters": false,
+            "diveHeight": 5.0,
+            "maxProbeCount": 1,
+            "offsets": [
+                -2.8,
+                43.0
+            ],
+            "recoveryTime": 0,
+            "speed": 2.0,
+            "temperatureCoefficient": 0,
+            "threshold": 500,
+            "tolerance": 0.030,
+            "travelSpeed": 1666.7,
+            "triggerHeight": 3.150,
+            "type": 9,
+            "value": [
+                0
+            ]
+        }
+    ]
+}
