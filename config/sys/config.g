@@ -24,18 +24,18 @@ M350 X32 Y32 Z32 E32 I1                      ; configure microstepping with inte
 ; Steps on X & Y
 ;   = steps per rotation / (pulley teeth * belt spacing) * microstep multiplier
 ;     0.9° degree stepper has 400 steps per rotation, 1.8° stepper has 200
-M92 X{400 / (17 * 2) * 32} Y{400 / (17 * 2) * 32} Z6400.00 E1674.00  ; set steps per mm
+M92 X{400 / (17 * 2) * 32} Y{400 / (17 * 2) * 32} Z3200.00 E1674.00  ; set steps per mm
 
 ; Motor current
 ;   = Max stepper rating in milliamps * 0.8
 ;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
-M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I30           ; set motor currents (mA) and motor idle factor in per cent
+M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I40           ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                                            ; Set idle timeout
 
 ; Speeds
-M203 X24000.00 Y24000.00 Z480.00 E3600.00    ; set maximum speeds (mm/min)
-M201 X4000.00  Y4000.00  Z80.00  E1500.00    ; set accelerations (mm/s^2)
+M203 X24000.00 Y24000.00 Z960.00  E3600.00    ; set maximum speeds (mm/min)
+M201 X4000.00  Y4000.00  Z240.00  E1500.00    ; set accelerations (mm/s^2)
 
 ; Jerk and accelerations
 M566 X240.00   Y240.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
@@ -50,9 +50,9 @@ M204 P1000 T2000                             ; use 1000mm/s² acceleration for p
 M569 P0.0 V250  H1                                    ; E            - Set tpwmthrs so StealthChop runs up to 3.6mm/sec
 M569 P0.1 V400  H1       Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
 M569 P0.2 V400  H1       Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.3 V60   H1                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
-M569 P0.4 V60   H1                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
-M569 P0.5 V60   H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 3.9mm/sec
+M569 P0.3 V100  H1                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 4.7mm/sec
+M569 P0.4 V100  H1                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 4.7mm/sec
+M569 P0.5 V100  H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 4.7mm/sec
 
 ; Avoid engaging CoolStep by setting very, very high thresholds
 M915 X Y Z E T1                                       ; Set CoolStep threshold to very high speed to effectively disable CoolStep
