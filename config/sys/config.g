@@ -89,17 +89,11 @@ M307 H1 B0 S1.00                                    ; disable bang-bang mode for
 M143 H1 S350                                        ; set temperature limit for nozzle
 M308 S2 P"temp1" Y"thermistor" A"Keenovo" T100000 B3950 ; configure keenovo thermistor, sensor 2, as thermistor on pin temp1
 
-; Bed PID Tune @ 60°C with 50% fan at 25mm z-height
-; Heater 0 model: gain 253.8, time constant 641.6, dead time 9.8, max PWM 1.00, calibration voltage 23.8, mode PID
-; Computed PID parameters for setpoint change: P46.0, I0.579, D315.8
-; Computed PID parameters for load change: P46.0, I1.445, D315.8
-M307 H0 A253.8 C641.6 D9.8 S1.0 V23.8 B0
+; Bed PID Tune @ 60°C
+M307 H0 R0.347 C839.2 D20.59 S1.00 V23.8 B0
 
-; Hotend PID Tune @ 215°C with 100% fan at 25mm z-height
-; Heater 1 model: gain 356.9, time constant 121.1, dead time 2.4, max PWM 1.00, calibration voltage 23.8, mode PID
-; Computed PID parameters for setpoint change: P25.3, I1.483, D42.4
-; Computed PID parameters for load change: P25.3, I3.469, D42.4
-M307 H1 A356.9 C121.1 D2.4 S1.0 V23.8 B0
+; Hotend PID Tune @ 215°C at 25mm z-height
+M307 H1 R2.613 C168.3:118.5 D4.31 S1.00 V23.8 B0
 
 ; Fans
 M950 F0 C"out8" Q100000                      ; create fan 0 on pin out8 and set its frequency
@@ -119,7 +113,7 @@ G10 P0 R0 S0                                 ; set initial tool 0 active and sta
 ; Dynamic Acceleration
 ; https://duet3d.dozuki.com/Wiki/Gcode#Section_M593_Configure_Dynamic_Acceleration_Adjustment
 ; Divide speed in mm/sec by distance between ringing artifacts in mm
-M593 F{ 80 / 2.55 }
+; M593 F{ 80 / 2.55 }
 
 ; Miscellaneous
 M308 S10 P"mcu-temp" Y"mcu-temp" A"MCU"      ; Set MCU temp on Sensor 10
