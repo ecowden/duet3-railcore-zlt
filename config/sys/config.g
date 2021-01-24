@@ -62,7 +62,7 @@ M208 X0 Y0 Z0.15 S1                          ; set axis minima
 M208 X300 Y300 Z615 S0                       ; set axis maxima
 
 ; Leadscrew locations
-M671 X-42.5:-42.5:377.5  Y16:271:146.5 S7.5   ; Measured leadscrew locations
+M671 X-8.9:-8.9:345.2  Y20.5:274.9:147.5 S7.5   ; Measured leadscrew locations
 
 ; Endstops
 M574 X1 S1 P"io0.in"                         ; configure active-high endstop for high end on X via pin io1.in
@@ -72,10 +72,10 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 ; Z-Probe
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T99999            ; set Z probe type to bltouch and the dive height + speeds
-G31 P500 X-2.8 Y43 Z3.15                     ; set Z probe trigger value, offset and trigger height
+G31 P500 X-3.8 Y35.1 Z3.15                   ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling
-M557 X102.7:227.7 Y94.5:209.5 P2:2			 ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates																
+M557 X105:230 Y93.7:208.7 P2:2		         ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates												
 
 ; Heaters
 M308 S0 P"temp0" Y"thermistor" A"Bed" T100000 B3950 ; configure bed, sensor 0, as thermistor on pin temp0

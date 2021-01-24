@@ -6,8 +6,10 @@
 
 M561                            ; clear any existing bed transform
 G1 Z5 H2                        ; Raise nozzel for clearance
-G30 P0 X102.7 Y94.5 Z-99999		; Define 4 points in a clockwise direction around the bed																	
-G30 P1 X227.7 Y94.5 Z-99999																			
-G30 P2 X227.7 Y209.5 Z-99999																			
-G30 P3 X102.7 Y209.5 Z-99999 S3	; ...after fourth point, tram bed																		
+
+G30 P0 X105 Y93.7 Z-99999       ; Define 4 points in a clockwise direction around the bed
+G30 P1 X230 Y93.7 Z-99999
+G30 P2 X230 Y208.7 Z-99999
+G30 P3 X105 Y208.7 Z-99999 S3	; ...after fourth point, tram bed
+
 G1 X10 Y10 F99999               ; Go home ASAP
