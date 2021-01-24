@@ -30,7 +30,7 @@ M92 X{400 / (17 * 2) * 32} Y{400 / (17 * 2) * 32} Z3200.00 E1674.00  ; set steps
 ;   = Max stepper rating in milliamps * 0.8
 ;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
-M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I40           ; set motor currents (mA) and motor idle factor in per cent
+M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I50           ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                                            ; Set idle timeout
 
 ; Speeds
@@ -50,16 +50,16 @@ M204 P1000 T2000                             ; use 1000mm/s² acceleration for p
 M569 P0.0 V250  H1                                    ; E            - Set tpwmthrs so StealthChop runs up to 3.6mm/sec
 M569 P0.1 V400  H1       Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
 M569 P0.2 V400  H1       Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.3 V100  H1                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 4.7mm/sec
-M569 P0.4 V100  H1                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 4.7mm/sec
-M569 P0.5 V100  H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 4.7mm/sec
+M569 P0.3 V400  H1                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
+M569 P0.4 V400  H1                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
+M569 P0.5 V400  H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
 
 ; Avoid engaging CoolStep by setting very, very high thresholds
 M915 X Y Z E T1                                       ; Set CoolStep threshold to very high speed to effectively disable CoolStep
 
 ; Axis Limits
-M208 X0 Y0 Z0.15 S1                          ; set axis minima
-M208 X300 Y300 Z615 S0                       ; set axis maxima
+M208 X0   Y0   Z0.01 S1                      ; set axis minima
+M208 X300 Y300 Z615  S0                      ; set axis maxima
 
 ; Leadscrew locations
 M671 X-8.9:-8.9:345.2  Y20.5:274.9:147.5 S7.5   ; Measured leadscrew locations
@@ -72,7 +72,7 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 ; Z-Probe
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T99999            ; set Z probe type to bltouch and the dive height + speeds
-G31 P500 X-3.8 Y35.1 Z3.15                   ; set Z probe trigger value, offset and trigger height
+G31 P500 X-3.8 Y35.1 Z3.35                   ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling
 M557 X105:230 Y93.7:208.7 P2:2		         ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates												
