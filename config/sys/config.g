@@ -105,6 +105,13 @@ M106 P2 C"Part" S0 H-1                       ; set fan 2 name and value. Thermos
 M950 F3 C"!out6+out6.tach" Q25000            ; create fan 3 as PWM fan on pin out6 and set its frequency
 M106 P3 C"Elec Box" S0.5 H-1                 ; set fan 3 name and value. Thermostatic control is turned off
 
+; Configure Stepper X/Y Fans thermostatically controlled by hotend,
+; since that's likely when the steppers need cooling
+M950 F4 C"!out5+out5.tach" Q25000            ; create fan 4 as PWM fan on pin out6 and set its frequency
+M106 P4 C"StepperF" S0.5 H1 T40              ; set fan 4 name and value. Thermostatic control is turned on
+M950 F5 C"!out4+out4.tach" Q25000            ; create fan 5 as PWM fan on pin out6 and set its frequency
+M106 P5 C"StepperB" S0.5 H1 T40              ; set fan 5 name and value. Thermostatic control is turned on
+
 ; Tools
 M563 P0 S"Mosquito" D0 H1 F2                 ; define tool 0
 G10 P0 X0 Y0 Z0                              ; set tool 0 axis offsets
