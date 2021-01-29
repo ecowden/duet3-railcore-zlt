@@ -34,12 +34,12 @@ M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I50           ; set motor c
 M84 S30                                                            ; Set idle timeout
 
 ; Speeds
-M203 X24000.00 Y24000.00 Z960.00  E3600.00    ; set maximum speeds (mm/min)
-M201 X4000.00  Y4000.00  Z240.00  E1500.00    ; set accelerations (mm/s^2)
+M203 X48000.00 Y48000.00 Z960.00  E3600.00    ; set maximum speeds (mm/min)
+M201 X6000.00  Y6000.00  Z240.00  E1500.00    ; set accelerations (mm/s^2)
 
 ; Jerk and accelerations
 M566 X240.00   Y240.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1000 T2000                             ; use 1000mm/s² acceleration for print moves and 2000mm/s² for travel moves
+M204 P1000 T6000                             ; use 1000mm/s² acceleration for print moves and 6000mm/s² for travel moves
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
