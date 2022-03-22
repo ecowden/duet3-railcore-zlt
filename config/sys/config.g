@@ -30,16 +30,16 @@ M92 X{400 / (17 * 2) * 32} Y{400 / (17 * 2) * 32} Z3200.00 E1674.00  ; set steps
 ;   = Max stepper rating in milliamps * 0.8
 ;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
-M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I50           ; set motor currents (mA) and motor idle factor in per cent
+M906 X{3600 * 0.75} Y{3600 * 0.75} Z{2000 * 0.8} E1100 I50         ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                                            ; Set idle timeout
 
 ; Speeds
-M203 X48000.00 Y48000.00 Z960.00  E3600.00    ; set maximum speeds (mm/min)
-M201 X6000.00  Y6000.00  Z240.00  E1500.00    ; set accelerations (mm/s^2)
+M203 X48000.00 Y48000.00 Z960.00  E7200.00    ; set maximum speeds (mm/min)
+M201 X10000.00 Y10000.00 Z360.00  E1500.00    ; set accelerations (mm/s^2)
 
 ; Jerk and accelerations
-M566 X240.00   Y240.00   Z20.00  E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1000 T6000                             ; use 1000mm/s² acceleration for print moves and 6000mm/s² for travel moves
+M566 X360.00   Y360.00   Z12.00   E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
+M204 P1500 T6000                              ; set acceleration for print moves and for travel moves
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
@@ -117,14 +117,14 @@ M563 P0 S"Mosquito" D0 H1 F2                 ; define tool 0
 G10 P0 X0 Y0 Z0                              ; set tool 0 axis offsets
 G10 P0 R0 S0                                 ; set initial tool 0 active and standby temperatures to 0C
 
-; Dynamic Acceleration
-; https://duet3d.dozuki.com/Wiki/Gcode#Section_M593_Configure_Dynamic_Acceleration_Adjustment
-; Divide speed in mm/sec by distance between ringing artifacts in mm
-; M593 F{ 80 / 2.55 }
+; Input Shaping
+M593 P"ei3" F42.0 S0.1                      ; Use EI3 Shaping at 42.0Hz, determined experimentally
+; M593 P"mzv" F32.0                          ; Use MZV Shaping at 32.0Hz, determined experimentally
 
 ; Miscellaneous
 M308 S10 P"mcu-temp" Y"mcu-temp" A"MCU"      ; Set MCU temp on Sensor 10
-M290 R0 S0                                   ; clear any babystepping
+M290 R0 S0.50                                ; set babystepping, adjust as needed for BLTouch drift
+M309 P0 S0.03                                ; set heater feed-forward, determined experimentally
 T0                                           ; select first tool
 M703                                         ; configure any loaded filament
 
