@@ -12,34 +12,46 @@ M550 P"Railcore"                             ; set printer name, must match Linu
 M669 K1                                      ; select CoreXY mode
 
 ; Drives
-M569 P0.0 S0 D2                              ; Extruder     0.0 goes backwards  0.9° LDO "Slim Power" 
-M569 P0.1 S1 D2                              ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA8L4360*
-M569 P0.2 S0 D2                              ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA8L4360*
-M569 P0.3 S0 D3                              ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
-M569 P0.4 S0 D3                              ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
-M569 P0.5 S0 D3                              ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
-M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3             ; set drive mapping
-M350 X32 Y32 Z32 E32 I1                      ; configure microstepping with interpolation
+M569 P0.0 S0 D2                               ; Extruder     0.0 goes backwards  0.9° LDO "Slim Power" 
+M569 P0.1 S1 D2                               ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA8L4360*
+M569 P0.2 S0 D2                               ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA8L4360*
+M569 P0.3 S0 D2                               ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
+M569 P0.4 S0 D2                               ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
+M569 P0.5 S0 D2                               ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
+M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3              ; set drive mapping
+
+; Microstepping
+var xyUStep = 16                              ; X & Y microstepping variables
+var zUStep  = 32                              ; Z
+var eUStep  = 32                              ; E
+
+M350 X{var.xyUStep} Y{var.xyUStep} I1         ; configure microstepping with interpolation
+M350 Z{var.zUStep}  E{var.eUStep}  I1         
 
 ; Steps on X & Y
 ;   = steps per rotation / (pulley teeth * belt spacing) * microstep multiplier
 ;     0.9° degree stepper has 400 steps per rotation, 1.8° stepper has 200
-M92 X{400 / (17 * 2) * 32} Y{400 / (17 * 2) * 32} Z3200.00 E1674.00  ; set steps per mm
+
+var xyPulleyTeeth = 20                                        ; the number of teeth per pulley on the X & Y axes
+var toothMM   = 2                                             ; the spacing per pulley tooth in millimeters
+
+M92 X{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; X set steps per mm
+M92 Y{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; Y set steps per mm
+M92 Z{400 * var.zUStep / 4}                                   ; Z set steps per mm
+M92 E{var.eUStep * 52.3125}                                   ; E set steps per mm
 
 ; Motor current
 ;   = Max stepper rating in milliamps * 0.8
 ;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
-M906 X{3600 * 0.75} Y{3600 * 0.75} Z{2000 * 0.8} E1100 I50         ; set motor currents (mA) and motor idle factor in per cent
-M84 S30                                                            ; Set idle timeout
+M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I50      ; set motor currents (mA) and motor idle factor in per cent
+M84 S30                                                       ; Set idle timeout
 
 ; Speeds
-M203 X48000.00 Y48000.00 Z960.00  E7200.00    ; set maximum speeds (mm/min)
-M201 X10000.00 Y10000.00 Z360.00  E1500.00    ; set accelerations (mm/s^2)
-
-; Jerk and accelerations
-M566 X360.00   Y360.00   Z12.00   E1500.00    ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1500 T6000                              ; set acceleration for print moves and for travel moves
+M203 X{600 * 60} Y{600 * 60} Z{16 * 60}  E{120 * 60}          ; set maximum speeds (mm/min)
+M201 X6000.00    Y6000.00    Z360.00     E1500.00             ; set accelerations (mm/s^2)
+M566 X{6 * 60}   Y{6 * 60}   Z{0.2 * 60} E{25 * 60}           ; set maximum jerk (instantaneous speed changes) (mm/min)
+M204 P1500 T6000                                              ; set acceleration for print moves and for travel moves
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
@@ -47,15 +59,35 @@ M204 P1500 T6000                              ; set acceleration for print moves
 ; B = Blank Time (tbl),       Default = 1
 ; F = Off Time   (toff),      Default = 3
 ; Y = Hysteresis (start:end), Default = 5:0
-M569 P0.0 V250  H1                                    ; E            - Set tpwmthrs so StealthChop runs up to 3.6mm/sec
-M569 P0.1 V400  H1       Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.2 V400  H1       Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-M569 P0.3 V400  H1                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
-M569 P0.4 V400  H1                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
-M569 P0.5 V400  H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
+; M569 P0.0 V250  H1                                    ; E            - Set tpwmthrs so StealthChop runs up to 3.6mm/sec
+; M569 P0.1 V400  H1       Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
+; M569 P0.2 V400  H1       Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
+; M569 P0.3 V400  H1                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
+; M569 P0.4 V400  H1                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
+; M569 P0.5 V400  H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
 
-; Avoid engaging CoolStep by setting very, very high thresholds
-M915 X Y Z E T1                                       ; Set CoolStep threshold to very high speed to effectively disable CoolStep
+M569 P0.0 V250 H1                                      ; E            - Set tpwmthrs so StealthChop @ 3.60mm/sec, thigh @ 89.60 mm/sec
+M569 P0.1 V400 H1 ; B2 F4 Y5:0                          ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.2 V400 H1 ; B2 F4 Y5:0                          ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+; M569 P0.1 V400 H1 B2 F4 Y0:0                          ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+; M569 P0.2 V400 H1 B2 F4 Y0:0                          ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+; M569 P0.1 V400 H12 B2 F4 Y0:0                          ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ 390.6 mm/sec
+; M569 P0.2 V400 H12 B2 F4 Y0:0                          ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ 390.6 mm/sec
+; M569 P0.1 V400 H12 B3 F5 Y0:2                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ 390.6 mm/sec
+; M569 P0.2 V400 H12 B3 F5 Y0:2                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ 390.6 mm/sec
+M569 P0.3 V400 H1 ; B2 F4 Y5:0                                   ; Z Right      - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
+M569 P0.4 V400 H1 ; B2 F4 Y5:0                                   ; Z Left Rear  - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
+M569 P0.5 V400 H1 ; B2 F4 Y5:0                                   ; Z Left Front - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
+
+; StallGuard
+M915 X Y S8 F1 R1 H622                                ; X & Y StallGuard, log on stall, enable filter
+M915 Z   S8 F1 R1 H543                                ; Z     StallGuard, log on stall, enable filter
+M915 E   S7 F1 R1 H815                                ; E     StallGuard, log on stall, enable filter
+
+; CoolStep
+M915 Z T1                                             ; Z CoolStep threshold to very high speed to effectively disable CoolStep
+M915 E T1                                             ; E CoolStep threshold to very high speed to effectively disable CoolStep
+M915 X Y T23                                          ; X & Y CoolStep threshold at 203.8 mm/sec
 
 ; Axis Limits
 M208 X0   Y0   Z0.01 S1                      ; set axis minima
@@ -72,7 +104,7 @@ M574 Z1 S2                                   ; configure Z-probe endstop for low
 ; Z-Probe
 M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
 M558 P9 C"^io7.in" H5 F120 T99999            ; set Z probe type to bltouch and the dive height + speeds
-G31 P500 X-3.8 Y35.1 Z3.55                   ; set Z probe trigger value, offset and trigger height
+G31 P500 X-3.8 Y35.1 Z3.25                   ; set Z probe trigger value, offset and trigger height
 
 ; Mesh bed leveling
 M557 X105:230 Y93.7:208.7 P2:2		         ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates												
@@ -118,13 +150,16 @@ G10 P0 X0 Y0 Z0                              ; set tool 0 axis offsets
 G10 P0 R0 S0                                 ; set initial tool 0 active and standby temperatures to 0C
 
 ; Input Shaping
-M593 P"ei3" F42.0 S0.1                      ; Use EI3 Shaping at 42.0Hz, determined experimentally
-; M593 P"mzv" F32.0                          ; Use MZV Shaping at 32.0Hz, determined experimentally
+; Seems to interact with Pressure Advance (PA) to create artifacts.
+; Unusable for now, re-examine later.
+; M593 P"ei2" F42.0 S0.05                      ; Use EI3 Shaping at 42.0Hz, determined experimentally
+; M593 P"mzv" F35.4                            ; Use MZV Shaping at 35.4Hz, determined experimentally
 
 ; Miscellaneous
 M308 S10 P"mcu-temp" Y"mcu-temp" A"MCU"      ; Set MCU temp on Sensor 10
-M290 R0 S0.50                                ; set babystepping, adjust as needed for BLTouch drift
-M309 P0 S0.03                                ; set heater feed-forward, determined experimentally
+M290 R0 S0.00                                ; set babystepping, adjust as needed for BLTouch drift
 T0                                           ; select first tool
 M703                                         ; configure any loaded filament
 
+; Set heater feed-forward in filament config because setting it here makes the heater disappear in the GUI
+; M309 P0 S0.030                               ; set heater feed-forward, determined experimentally
