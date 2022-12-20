@@ -1,11 +1,12 @@
 # Railcore®️ II ZLT Duet3 Configs
 
-Duet3 RRF v3.1.1 configurations for my custom Railcore®️ II ZLT
+Duet3 RRF v3.4.5 configurations for my custom Railcore®️ II ZLT
 
 **USE AT YOUR OWN RISK!** Be careful!
 
 **NOT STOCK!** My machine is not stock. Non-standard parts include:
 * Duet 3 6HC
+* Euclid probe instead of BLTouch
 * Moons [MS23HA8L4360](https://www.moonsindustries.com/p/nema-23-high-precision-hybrid-stepper-motors/ms23ha8l4360-000004611110015316) 0.9° NEMA23 steppers on X & Y, with,
   * [NEMA23 Stepper Brackets](https://www.mandalaroseworks.com/product/railcore#nema23steppermounts) from Mandala Rose Works
   * [20-tooth pulleys](http://shop.sdp-si.com/catalog/product/?id=A_6A51-020DF0908)

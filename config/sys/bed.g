@@ -8,7 +8,7 @@ M561                                              ; clear any bed transform
 M290 S0 R0                                        ; clear baby steps 
 
 ; Define Mesh bed leveling
-M557 X25:275 Y40:280 P7:7		                  ; define bed mesh grid
+M557 X25:285 Y40:280 P7:7		                      ; define bed mesh grid
 
 if sensors.probes[0].value[0]!=0                  ; If probe is not deployed...
   M401 P0                                         ; ...deploy probe

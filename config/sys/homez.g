@@ -35,7 +35,7 @@ G30                                               ; Probe the bed at the current
                                                   ; adjust the Z offset of the current tool to make the current position Z=0.
 M400
 
-M558 F{global.preciseProbeSpeedZ} T9000 A3 S0.01  ; Switch to precise probing for precision
+M558 F{global.preciseProbeSpeedZ} T12000 A3 S0.01  ; Switch to precise probing for precision
 
 G1 Z10                                            ; raise Z=10
 M400

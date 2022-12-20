@@ -10,4 +10,4 @@ M400                    ; wait for completion
 M292                    ; hide the message
 G10 S0                  ; turn off heater
 M84 E                   ; turn off extruder stepper
-M290 R0 S0.00           ; reset babystepping to zero
+; M290 R0 S0.00           ; reset babystepping to zero

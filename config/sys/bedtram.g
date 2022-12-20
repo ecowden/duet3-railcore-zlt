@@ -6,9 +6,9 @@
 ; ***********************************************************
 ; probe is -16.4 in X -29.4 in Y bed is 290 in X 325 in Y
 ; locations of probe points are at 
-; (18, 285)     (270,285)
+; (18, 285)     (285,285)
 ;
-; (18,65)       (270,65)
+; (18,65)       (285,65)
 ;
 ; adjust coords so that probe hits symmetric points on the bed and avoids dock
 ;

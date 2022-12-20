@@ -38,7 +38,12 @@ var toothMM       =  2                                        ; the spacing per 
 M92 X{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; X set steps per mm
 M92 Y{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; Y set steps per mm
 M92 Z{400 * var.zUStep / 4}                                   ; Z set steps per mm
-M92 E{var.eUStep / 16 * 562}                                  ; E set steps per mm
+
+; Extruder steps
+; Bondtech says 562 steps at 16 microsteps
+; M92 E{var.eUStep / 16 * 562}                                  ; E set steps per mm
+; ...but I've had consistent under-extrusion, so I'm tweaking this higher.
+M92 E{var.eUStep / 16 * 590}                                  ; E set steps per mm
 
 ; Motor current
 ;   = Max stepper rating in milliamps * 0.8

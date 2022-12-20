@@ -21,7 +21,7 @@ global probeReadyX = 150
 global probeReadyY = 150
 
 ; Z Offset is bed height when probe makes contact
-var zOffset = 8.45
+var zOffset = 7.95
 global probeClearanceZ    = var.zOffset + 5                 ; How far to lift to avoid crashing the Euclid into the bed
 global fastProbeSpeedZ    = 300                             ; Fast speed when first homing and bed may be low from previous print
 global preciseProbeSpeedZ = 120                             ; Precise speed when for fine-grained homing
