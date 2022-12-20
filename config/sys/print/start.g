@@ -6,7 +6,7 @@ G90                              ; use absolute coordinates
 M83                              ; extruder relative mode
 
 G828                             ; home if not homed
-G832                             ; if not already leveled, level bed and re-home Z
+; G832                             ; if not already leveled, level bed and re-home Z
 
 ; prime nozzle
 ; G1 X0 Y0 F99999.0                ; Go home
