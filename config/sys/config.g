@@ -12,18 +12,18 @@ M550 P"Railcore"                             ; set printer name, must match Linu
 M669 K1                                      ; select CoreXY mode
 
 ; Drives
-M569 P0.0 S0 D2                               ; Extruder     0.0 goes backwards  0.9° LDO "Slim Power" 
-M569 P0.1 S1 D2                               ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA8L4360*
-M569 P0.2 S0 D2                               ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA8L4360*
+M569 P0.0 S0 D2                               ; Extruder     0.0 goes forwards  1.8° LDO on LGX Lite
+M569 P0.1 S1 D2                               ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA0L4350*
+M569 P0.2 S0 D2                               ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA0L4350*
 M569 P0.3 S0 D2                               ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.4 S0 D2                               ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
 M569 P0.5 S0 D2                               ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
 M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3              ; set drive mapping
 
 ; Microstepping
-var xyUStep = 16                              ; X & Y microstepping variables
-var zUStep  = 32                              ; Z
-var eUStep  = 32                              ; E
+var xyUStep = 32                              ; X & Y microstepping variables
+var zUStep  = 16                              ; Z
+var eUStep  = 16                              ; E
 
 M350 X{var.xyUStep} Y{var.xyUStep} I1         ; configure microstepping with interpolation
 M350 Z{var.zUStep}  E{var.eUStep}  I1         
@@ -33,25 +33,27 @@ M350 Z{var.zUStep}  E{var.eUStep}  I1
 ;     0.9° degree stepper has 400 steps per rotation, 1.8° stepper has 200
 
 var xyPulleyTeeth = 20                                        ; the number of teeth per pulley on the X & Y axes
-var toothMM   = 2                                             ; the spacing per pulley tooth in millimeters
+var toothMM       =  2                                        ; the spacing per pulley tooth in millimeters
 
 M92 X{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; X set steps per mm
 M92 Y{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; Y set steps per mm
 M92 Z{400 * var.zUStep / 4}                                   ; Z set steps per mm
-M92 E{var.eUStep * 52.3125}                                   ; E set steps per mm
+M92 E{var.eUStep / 16 * 562}                                  ; E set steps per mm
 
 ; Motor current
 ;   = Max stepper rating in milliamps * 0.8
 ;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
-M906 X{3600 * 0.8} Y{3600 * 0.8} Z{2000 * 0.8} E1100 I50      ; set motor currents (mA) and motor idle factor in per cent
-M84 S30                                                       ; Set idle timeout
+M906 X{3500 * 0.8} Y{3500 * 0.8} I50                          ; X & Y set motor currents (mA) and motor idle factor in per cent
+M906 Z{2000 * 0.8}               I50                          ; Z     set motor currents (mA) and motor idle factor in per cent
+M906 E650                        I50                          ; E     set motor currents (mA), per Bondtech use between 450-650mA
+M84 S60                                                       ; Set idle timeout
 
 ; Speeds
-M203 X{600 * 60} Y{600 * 60} Z{16 * 60}  E{120 * 60}          ; set maximum speeds (mm/min)
+M203 X{400 * 60} Y{400 * 60} Z{12 * 60}  E{60 * 60}           ; set maximum speeds (mm/min)
 M201 X6000.00    Y6000.00    Z360.00     E1500.00             ; set accelerations (mm/s^2)
-M566 X{6 * 60}   Y{6 * 60}   Z{0.2 * 60} E{25 * 60}           ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1500 T6000                                              ; set acceleration for print moves and for travel moves
+M566 X{6 * 60}   Y{6 * 60}   Z{1.6 * 60} E{25 * 60}           ; set maximum jerk (instantaneous speed changes) (mm/min)
+M204 P1500 T3000                                              ; set acceleration for print moves and for travel moves
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
@@ -90,24 +92,22 @@ M915 E T1                                             ; E CoolStep threshold to 
 M915 X Y T23                                          ; X & Y CoolStep threshold at 203.8 mm/sec
 
 ; Axis Limits
-M208 X0   Y0   Z0.01 S1                      ; set axis minima
-M208 X300 Y300 Z615  S0                      ; set axis maxima
+; TODO adjust based on new endstop positions, and off-board Euclid position
+M208 X-15 Y0   Z0.01 S1                      ; set axis minima
+; M208 X300 Y300 Z600  S0                      ; set axis maxima
+; TODO re-limit the Y axis after tuning Euclid
+M208 X300 Y307 Z600  S0                      ; set axis maxima
 
 ; Leadscrew locations
-M671 X-8.9:-8.9:345.2  Y20.5:274.9:147.5 S7.5   ; Measured leadscrew locations
+M671 X-8.8:-8.8:348.6  Y23.9:278.8:149 S7.5   ; Measured leadscrew locations
+; M671 X-8.9:-8.9:345.2  Y20.5:274.9:147.5 S7.5   ; Measured leadscrew locations
 
 ; Endstops
 M574 X1 S1 P"io0.in"                         ; configure active-high endstop for high end on X via pin io1.in
 M574 Y1 S1 P"io3.in"                         ; configure active-high endstop for high end on Y via pin io2.in
-M574 Z1 S2                                   ; configure Z-probe endstop for low end on Z (*Not in reference*)
 
-; Z-Probe
-M950 S0 C"io7.out"                           ; create servo pin 0 for BLTouch
-M558 P9 C"^io7.in" H5 F120 T99999            ; set Z probe type to bltouch and the dive height + speeds
-G31 P500 X-3.8 Y35.1 Z3.25                   ; set Z probe trigger value, offset and trigger height
-
-; Mesh bed leveling
-M557 X105:230 Y93.7:208.7 P2:2		         ; define bed mesh grid, Max_Plastic's Spreadsheet coordinates												
+; Configure Z Probe in configprobe.g
+M98 P"0:/sys/configprobe.g"											
 
 ; Heaters
 M308 S0 P"temp0" Y"thermistor" A"Bed" T100000 B3950 ; configure bed, sensor 0, as thermistor on pin temp0
@@ -125,13 +125,15 @@ M308 S2 P"temp1" Y"thermistor" A"Keenovo" T100000 B3950 ; configure keenovo ther
 M307 H0 R0.347 C839.2 D20.59 S1.00 V23.8 B0
 
 ; Hotend PID Tune @ 215°C at 25mm z-height
-M307 H1 R2.613 C168.3:118.5 D4.31 S1.00 V23.8 B0
+M307 H1 R2.648 K0.411:0.180 D4.12 E1.35 S1.00 B0 V23.8
+; Hotend PID Tuning Command:
+; M303 T0 S215 
 
 ; Fans
-M950 F0 C"out8" Q100000                      ; create fan 0 on pin out8 and set its frequency
-M106 P0 C"HotendIn" S0.6 H1 T40              ; set fan 0 name and value. Thermostatic control is turned on. *Fan Sunon MF2510V2 on Mosquito as intake.
-M950 F1 C"out9" Q100000                      ; create fan 1 on pin out9 and set its frequency
-M106 P1 C"HotendOut" S0.4 H1 T40             ; set fan 1 name and value. Thermostatic control is turned on. *Fan Sunon MF2510V2 on Mosquito as exhaust.
+M950 F0 C"out8" Q500                      ; create fan 0 on pin out8 and set its frequency
+M106 P0 C"Hotend" S1.0 H1 T40              ; set fan 0 name and value. Thermostatic control is turned on. *Fan Sunon MF2510V1 on Mosquito as intake.
+; M950 F1 C"out9" Q10000                      ; create fan 1 on pin out9 and set its frequency
+; M106 P1 C"HotendOut" S1.0 H1 T40             ; set fan 1 name and value. Thermostatic control is turned on. *Fan Sunon MF2510V2 on Mosquito as exhaust.
 M950 F2 C"out7" Q500                         ; create fan 2 on pin out7 and set its frequency
 M106 P2 C"Part" S0 H-1                       ; set fan 2 name and value. Thermostatic control is turned off
 M950 F3 C"!out6+out6.tach" Q25000            ; create fan 3 as PWM fan on pin out6 and set its frequency
