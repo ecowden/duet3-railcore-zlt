@@ -54,15 +54,6 @@ G0 H2 Z{global.probeClearanceZ} F99999            ; move Z 15 for clearance abov
 ;                            ; need to figure out some safety check on this
 G90                          ; absolute positioning
 
-; uncomment next line to echo the probe value 
-; echo "Probe Value =" ^sensors.probes[0].value[0]
-
-; if sensors.probes[0].value[0]!=1000    ; if sensor is value other than 1000 do this
-  ; uncomment next line to echo the probe deploy state 
-  ; echo "deployuser token = " ^sensors.probes[0].deployedByUser
-  ; ; echo "Probe State = " ^sensors.probes[0].value[0]
-  ; abort "deployprobe start value Probe already picked up.  Manually return probe to the dock"
-
 G0 X{global.dockPreflightX} Y{global.dockPreflightY} F99999    ; move to Preflight Position
 M400                                                           ; wait for moves to finish
 
