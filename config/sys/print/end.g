@@ -3,7 +3,7 @@
 M400                                        ; wait for moves to finish
 
 ; Retract and wipe extruder
-G1 E-1 F1800                                        ; retract 1mm of filament at 1800mm/min
+G1 E-2 F1800                                        ; retract 2mm of filament at 1800mm/min
 if move.axes[0].machinePosition > 2                 ; if not against x min...
     G1 X{move.axes[0].machinePosition - 2} F6000    ; ...wipe 2mm left
 else                                                ; if up against x min...            

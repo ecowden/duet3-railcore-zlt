@@ -68,9 +68,6 @@ G0 X{global.dockExitX} Y{global.dockExitY} F600                ; slide probe out
 G0 X{global.dockStagingX} Y{global.dockStagingY} F6000         ; move to re-entry position
 M400                                                           ; wait for moves to finish
 
-; uncomment to echo the probe deploy state 
-echo "Object Model Deployuser token (at end of deployprobe.g) = ", sensors.probes[0].deployedByUser
-
 G0 X150 Y150 F99999                                            ; move to the center of the bed
 M400                                                           ; wait for moves to finish
 

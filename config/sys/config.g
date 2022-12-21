@@ -170,3 +170,5 @@ M703                                         ; configure any loaded filament
 
 ; Set heater feed-forward in filament config because setting it here makes the heater disappear in the GUI
 ; M309 P0 S0.030                               ; set heater feed-forward, determined experimentally
+
+M376 H10                                     ; Taper mesh compensation over 10mm

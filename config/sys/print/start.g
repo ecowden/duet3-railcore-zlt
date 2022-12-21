@@ -6,10 +6,17 @@ G90                              ; use absolute coordinates
 M83                              ; extruder relative mode
 
 G828                             ; home if not homed
-; G832                             ; if not already leveled, level bed and re-home Z
+
+if (exists(param.A) && exists(param.B) && exists(param.C) && exists(param.D))
+  if (exists(param.E) && exists(param.F))
+    G29 A{param.A} B{param.B} C{param.C} D{param.D} E{param.E} F{param.F}
+  else
+    G29 A{param.A} B{param.B} C{param.C} D{param.D}
+else
+  G29
 
 if sensors.probes[0].value[0]==0              ; if probe is deployed...
-    ; stow probe
+  M402 P0                                     ; ...stow probe
 
 if sensors.probes[0].value[0]==0              ; if probe is still deployed...
-  abort "Aborting print: probe is deployed!"  ; abort print
+  abort "Aborting print: probe is deployed!"  ; ...abort print
