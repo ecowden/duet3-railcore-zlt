@@ -41,9 +41,7 @@ M92 Z{400 * var.zUStep / 4}                                   ; Z set steps per 
 
 ; Extruder steps
 ; Bondtech says 562 steps at 16 microsteps
-; M92 E{var.eUStep / 16 * 562}                                  ; E set steps per mm
-; ...but I've had consistent under-extrusion, so I'm tweaking this higher.
-M92 E{var.eUStep / 16 * 590}                                  ; E set steps per mm
+M92 E{var.eUStep / 16 * 562}                                  ; E set steps per mm
 
 ; Motor current
 ;   = Max stepper rating in milliamps * 0.8
@@ -51,7 +49,7 @@ M92 E{var.eUStep / 16 * 590}                                  ; E set steps per 
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
 M906 X{3500 * 0.8} Y{3500 * 0.8} I50                          ; X & Y set motor currents (mA) and motor idle factor in per cent
 M906 Z{2000 * 0.8}               I50                          ; Z     set motor currents (mA) and motor idle factor in per cent
-M906 E650                        I50                          ; E     set motor currents (mA), per Bondtech use between 450-650mA
+M906 E600                        I50                          ; E     set motor currents (mA), per Bondtech use between 450-650mA
 M84 S60                                                       ; Set idle timeout
 
 ; Speeds
@@ -66,25 +64,12 @@ M204 P1500 T3000                                              ; set acceleration
 ; B = Blank Time (tbl),       Default = 1
 ; F = Off Time   (toff),      Default = 3
 ; Y = Hysteresis (start:end), Default = 5:0
-; M569 P0.0 V250  H1                                    ; E            - Set tpwmthrs so StealthChop runs up to 3.6mm/sec
-; M569 P0.1 V400  H1       Y4:0                         ; X            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-; M569 P0.2 V400  H1       Y4:0                         ; Y            - Set tpwmthrs so StealthChop runs up to 10.5mm/sec
-; M569 P0.3 V400  H1                                    ; Z Right      - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
-; M569 P0.4 V400  H1                                    ; Z Left Rear  - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
-; M569 P0.5 V400  H1                                    ; Z Left Front - Set tpwmthrs so StealthChop runs up to 1.2mm/sec
-
 M569 P0.0 V250 H1                                      ; E            - Set tpwmthrs so StealthChop @ 3.60mm/sec, thigh @ 89.60 mm/sec
-M569 P0.1 V400 H1 ; B2 F4 Y5:0                          ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
-M569 P0.2 V400 H1 ; B2 F4 Y5:0                          ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
-; M569 P0.1 V400 H1 B2 F4 Y0:0                          ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
-; M569 P0.2 V400 H1 B2 F4 Y0:0                          ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
-; M569 P0.1 V400 H12 B2 F4 Y0:0                          ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ 390.6 mm/sec
-; M569 P0.2 V400 H12 B2 F4 Y0:0                          ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ 390.6 mm/sec
-; M569 P0.1 V400 H12 B3 F5 Y0:2                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ 390.6 mm/sec
-; M569 P0.2 V400 H12 B3 F5 Y0:2                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ 390.6 mm/sec
-M569 P0.3 V400 H1 ; B2 F4 Y5:0                                   ; Z Right      - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
-M569 P0.4 V400 H1 ; B2 F4 Y5:0                                   ; Z Left Rear  - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
-M569 P0.5 V400 H1 ; B2 F4 Y5:0                                   ; Z Left Front - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
+M569 P0.1 V400 H1 ; B2 F4 Y5:0                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.2 V400 H1 ; B2 F4 Y5:0                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.3 V400 H1 ; B2 F4 Y5:0                         ; Z Right      - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
+M569 P0.4 V400 H1 ; B2 F4 Y5:0                         ; Z Left Rear  - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
+M569 P0.5 V400 H1 ; B2 F4 Y5:0                         ; Z Left Front - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
 
 ; StallGuard
 M915 X Y S8 F1 R1 H622                                ; X & Y StallGuard, log on stall, enable filter
@@ -135,10 +120,8 @@ M307 H1 R2.648 K0.411:0.180 D4.12 E1.35 S1.00 B0 V23.8
 ; M303 T0 S215 
 
 ; Fans
-M950 F0 C"out8" Q500                      ; create fan 0 on pin out8 and set its frequency
-M106 P0 C"Hotend" S1.0 H1 T40              ; set fan 0 name and value. Thermostatic control is turned on. *Fan Sunon MF2510V1 on Mosquito as intake.
-; M950 F1 C"out9" Q10000                      ; create fan 1 on pin out9 and set its frequency
-; M106 P1 C"HotendOut" S1.0 H1 T40             ; set fan 1 name and value. Thermostatic control is turned on. *Fan Sunon MF2510V2 on Mosquito as exhaust.
+M950 F0 C"out8" Q500                         ; create fan 0 on pin out8 and set its frequency
+M106 P0 C"Hotend" S1.0 H1 T40                ; set fan 0 name and value. Thermostatic control is turned on. *Fan Sunon MF2510V1 on Mosquito as intake.
 M950 F2 C"out7" Q500                         ; create fan 2 on pin out7 and set its frequency
 M106 P2 C"Part" S0 H-1                       ; set fan 2 name and value. Thermostatic control is turned off
 M950 F3 C"!out6+out6.tach" Q25000            ; create fan 3 as PWM fan on pin out6 and set its frequency
