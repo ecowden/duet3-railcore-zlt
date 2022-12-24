@@ -120,10 +120,11 @@ M307 H1 R2.648 K0.411:0.180 D4.12 E1.35 S1.00 B0 V23.8
 ; M303 T0 S215 
 
 ; Fans
-M950 F0 C"out8" Q500                         ; create fan 0 on pin out8 and set its frequency
-M106 P0 C"Hotend" S1.0 H1 T40                ; set fan 0 name and value. Thermostatic control is turned on. *Fan Sunon MF2510V1 on Mosquito as intake.
-M950 F2 C"out7" Q500                         ; create fan 2 on pin out7 and set its frequency
-M106 P2 C"Part" S0 H-1                       ; set fan 2 name and value. Thermostatic control is turned off
+
+M950 F0 C"out7" Q500                         ; create fan 0 on pin out7 and set its frequency
+M106 P0 C"Part" S0 H-1                       ; set fan 0 name and value. Thermostatic control is turned off
+M950 F2 C"out8" Q500                         ; create fan 2 on pin out8 and set its frequency
+M106 P2 C"Hotend" S1.0 H1 T40                ; set fan 2 name and value. Thermostatic control is turned on. *Fan is Mosquito fan.
 M950 F3 C"!out6+out6.tach" Q25000            ; create fan 3 as PWM fan on pin out6 and set its frequency
 M106 P3 C"Elec Box" S0.5 H-1                 ; set fan 3 name and value. Thermostatic control is turned off
 
