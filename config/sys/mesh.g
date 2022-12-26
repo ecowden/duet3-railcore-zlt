@@ -47,7 +47,7 @@ if (exists(param.A) && exists(param.B) && exists(param.C) && exists(param.D))
   var yMax = min(var.safeMaxY,param.D)
 
   if (exists(param.E) && exists(param.F))                                    ; if number of points point is specified...
-    echo "Performing a print-specific mesh: ", "xMin=", var.xMin, "xMax=", var.xMax, "yMin=", var.yMin, "yMax=", var.yMax, "nX=", var.nPointsX, "nY=", var.nPointsY
+    echo "Performing a print-specific mesh: ", "xMin=", var.xMin, "xMax=", var.xMax, "yMin=", var.yMin, "yMax=", var.yMax, "nX=", param.E, "nY=", param.F
     M557 X{param.A,param.B} Y{param.C,param.D} P{param.E,param.F}            ; define print mesh grid using it
   else                                                                       ; otherwise...
     var nPointsX = max(floor(min((var.xMax - var.xMin) / var.defaultSpacingMm, var.maxPoints)),2)
