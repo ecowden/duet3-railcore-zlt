@@ -11,22 +11,27 @@ M83                                          ; ...but relative extruder moves
 M550 P"Railcore"                             ; set printer name, must match Linux hostname
 M669 K1                                      ; select CoreXY mode
 
+; Expansion Boards
+; B50 Bottom 1HCL Rear  Stepper
+; B51 Top    1HCL Front Stepper
+G4 S1                                        ; wait for expansion boards to start
+
 ; Drives
-M569 P0.0 S0 D2                               ; Extruder     0.0 goes forwards  1.8° LDO on LGX Lite
-M569 P0.1 S1 D2                               ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA0L4350*
-M569 P0.2 S0 D2                               ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA0L4350*
-M569 P0.3 S0 D2                               ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
-M569 P0.4 S0 D2                               ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
-M569 P0.5 S0 D2                               ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
-M584 E0.0 Y0.1 X0.2 Z0.5:0.4:0.3              ; set drive mapping
+M569 P0.0  S0 D2                              ; Extruder     0.0 goes forwards  1.8° LDO on LGX Lite
+M569 P50.0 S0 D2                              ; X / Rear     0.2 goes backwards  0.9° Moons MS23HA0L4350*
+M569 P51.0 S1 D2                              ; Y / Front    0.1 goes forwards   0.9° Moons MS23HA0L4350*
+M569 P0.3  S0 D2                              ; Z Right      0.3 goes backwards  0.9° Moons MS17HA6P4200*
+M569 P0.4  S0 D2                              ; Z Rear Left  0.4 goes backwards  0.9° Moons MS17HA6P4200*
+M569 P0.5  S0 D2                              ; Z Front Left 0.5 goes backwards  0.9° Moons MS17HA6P4200*
+M584 E0.0 X50.0 Y51.0 Z0.5:0.4:0.3            ; set drive mapping
 
 ; Microstepping
-var xyUStep = 32                              ; X & Y microstepping variables
+var xyUStep = 128                             ; X & Y microstepping variables
 var zUStep  = 16                              ; Z
 var eUStep  = 16                              ; E
 
-M350 X{var.xyUStep} Y{var.xyUStep} I1         ; configure microstepping with interpolation
-M350 Z{var.zUStep}  E{var.eUStep}  I1         
+M350 X{var.xyUStep} Y{var.xyUStep} I0         ; configure microstepping without interpolation
+M350 Z{var.zUStep}  E{var.eUStep}  I1         ; configure microstepping with    interpolation
 
 ; Steps on X & Y
 ;   = steps per rotation / (pulley teeth * belt spacing) * microstep multiplier
@@ -35,8 +40,8 @@ M350 Z{var.zUStep}  E{var.eUStep}  I1
 var xyPulleyTeeth = 20                                        ; the number of teeth per pulley on the X & Y axes
 var toothMM       =  2                                        ; the spacing per pulley tooth in millimeters
 
-M92 X{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; X set steps per mm
-M92 Y{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; Y set steps per mm
+M92 X{200 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; X set steps per mm
+M92 Y{200 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; Y set steps per mm
 M92 Z{400 * var.zUStep / 4}                                   ; Z set steps per mm
 
 ; Extruder steps
@@ -47,6 +52,7 @@ M92 E{var.eUStep / 16 * 562}                                  ; E set steps per 
 ;   = Max stepper rating in milliamps * 0.8
 ;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
+; TODO current reduced for safety while ensuring everything works correctly
 M906 X{3500 * 0.8} Y{3500 * 0.8} I50                          ; X & Y set motor currents (mA) and motor idle factor in per cent
 M906 Z{2000 * 0.8}               I50                          ; Z     set motor currents (mA) and motor idle factor in per cent
 M906 E600                        I50                          ; E     set motor currents (mA), per Bondtech use between 450-650mA
@@ -65,8 +71,8 @@ M204 P1500 T3000                                              ; set acceleration
 ; F = Off Time   (toff),      Default = 3
 ; Y = Hysteresis (start:end), Default = 5:0
 M569 P0.0 V250 H1                                      ; E            - Set tpwmthrs so StealthChop @ 3.60mm/sec, thigh @ 89.60 mm/sec
-M569 P0.1 V400 H1 ; B2 F4 Y5:0                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
-M569 P0.2 V400 H1 ; B2 F4 Y5:0                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.1 V400 H1 Y7:3 ; B2 F4                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.2 V400 H1 Y7:3 ; B2 F4                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
 M569 P0.3 V400 H1 ; B2 F4 Y5:0                         ; Z Right      - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
 M569 P0.4 V400 H1 ; B2 F4 Y5:0                         ; Z Left Rear  - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
 M569 P0.5 V400 H1 ; B2 F4 Y5:0                         ; Z Left Front - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
@@ -79,7 +85,9 @@ M915 E   S7 F1 R1 H815                                ; E     StallGuard, log on
 ; CoolStep
 M915 Z T1                                             ; Z CoolStep threshold to very high speed to effectively disable CoolStep
 M915 E T1                                             ; E CoolStep threshold to very high speed to effectively disable CoolStep
-M915 X Y T23                                          ; X & Y CoolStep threshold at 203.8 mm/sec
+; M915 X Y T23                                        ; X & Y CoolStep threshold at 203.8 mm/sec (0.9° steppers)
+; M915 X Y T46                                        ; X & Y CoolStep threshold at 203.8 mm/sec (1.8° steppers)
+M915 X Y T1                                           ; X & Y CoolStep threshold to very high speed to effectively disable CoolStep
 
 ; Axis Limits
 ; TODO adjust based on new endstop positions, and off-board Euclid position
@@ -136,7 +144,7 @@ M950 F5 C"!out4+out4.tach" Q25000            ; create fan 5 as PWM fan on pin ou
 M106 P5 C"StepperB" S0.5 H1 T40              ; set fan 5 name and value. Thermostatic control is turned on
 
 ; Tools
-M563 P0 S"Mosquito" D0 H1 F2                 ; define tool 0
+M563 P0 S"Mosquito" D0 H1 F0                 ; define tool 0
 G10 P0 X0 Y0 Z0                              ; set tool 0 axis offsets
 G10 P0 R0 S0                                 ; set initial tool 0 active and standby temperatures to 0C
 
