@@ -6,9 +6,8 @@ M561              ; clear bed transform
 G91               ; relative positioning
 
 ; Trinamic tuning
-; G1 H2 Z0.0005     ; just enough movement to energize steppers
-; G1 H2 Y-0.005     ; just enough movement to energize steppers
-; G4 P150           ; pause for 150ms
+M17 X Y Z         ; Energize X, Y & Z steppers (core xy uses both steppers to move straight, and we move the bed)
+G4 P150           ; pause for 150ms
 
 G1 H2 Z5 F9999    ; lift Z relative to current position
 
