@@ -71,8 +71,8 @@ M204 P1500 T3000                                              ; set acceleration
 ; F = Off Time   (toff),      Default = 3
 ; Y = Hysteresis (start:end), Default = 5:0
 M569 P0.0 V250 H1                                      ; E            - Set tpwmthrs so StealthChop @ 3.60mm/sec, thigh @ 89.60 mm/sec
-M569 P0.1 V400 H1 Y7:3 ; B2 F4                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
-M569 P0.2 V400 H1 Y7:3 ; B2 F4                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.1 V400 H1 Y7:4 ; B2 F4                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.2 V400 H1 Y7:4 ; B2 F4                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
 M569 P0.3 V400 H1 ; B2 F4 Y5:0                         ; Z Right      - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
 M569 P0.4 V400 H1 ; B2 F4 Y5:0                         ; Z Left Rear  - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
 M569 P0.5 V400 H1 ; B2 F4 Y5:0                         ; Z Left Front - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
