@@ -25,8 +25,11 @@ M569 P0.4  S0 D2                              ; Z Rear Left  0.4  goes backwards
 M569 P0.5  S0 D2                              ; Z Front Left 0.5  goes backwards 0.9° Moons MS17HA6P4200*
 M584 E0.0 Y50.0 X51.0 Z0.5:0.4:0.3            ; set drive mapping
 
+M569.1 P50.0 T2 C5120 R100 I0 D0              ; 1HCL at address 50 has a quadrature encoder with 5120 CPR.
+M569.1 P51.0 T2 C5120 R100 I0 D0              ; 1HCL at address 51 has a quadrature encoder with 5120 CPR
+
 ; Microstepping
-var xyUStep = 32                              ; X & Y microstepping variables
+var xyUStep = 64                              ; X & Y microstepping variables
 var zUStep  = 16                              ; Z
 var eUStep  = 32                              ; E
 
@@ -58,7 +61,7 @@ M906 E600                        I50                          ; E     set motor 
 M84 S60                                                       ; Set idle timeout
 
 ; Speeds
-M203 X{600 * 60} Y{600 * 60} Z{12 * 60}  E{60 * 60}           ; set maximum speeds (mm/min)
+M203 X{400 * 60} Y{400 * 60} Z{12 * 60}  E{60 * 60}           ; set maximum speeds (mm/min)
 M201 X6000.00    Y6000.00    Z360.00     E1500.00             ; set accelerations (mm/s^2)
 M566 X{6 * 60}   Y{6 * 60}   Z{1.6 * 60} E{25 * 60}           ; set maximum jerk (instantaneous speed changes) (mm/min)
 M204 P1500 T6000                                              ; set acceleration for print moves and for travel moves
