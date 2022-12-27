@@ -18,11 +18,11 @@ G4 S1                                        ; wait for expansion boards to star
 
 ; Drives
 M569 P0.0  S0 D2                              ; Extruder     0.0  goes forwards  1.8° LDO on LGX Lite
-M569 P50.0 S1 D2                              ; Y / Front    50.0 goes forwards  0.9° Moons MS23HA0L4350*
-M569 P51.0 S1 D2                              ; X / Rear     51.0 goes backwards 0.9° Moons MS23HA0L4350*
-M569 P0.3  S0 D2                              ; Z Right      0.3  goes backwards  0.9° Moons MS17HA6P4200*
-M569 P0.4  S0 D2                              ; Z Rear Left  0.4  goes backwards  0.9° Moons MS17HA6P4200*
-M569 P0.5  S0 D2                              ; Z Front Left 0.5  goes backwards  0.9° Moons MS17HA6P4200*
+M569 P50.0 S1 D2                              ; Y / Front    50.0 goes backwards 1.8° Moons MS23HS0L4350*
+M569 P51.0 S1 D2                              ; X / Rear     51.0 goes backwards 1.8° Moons MS23HS0L4350*
+M569 P0.3  S0 D2                              ; Z Right      0.3  goes backwards 0.9° Moons MS17HA6P4200*
+M569 P0.4  S0 D2                              ; Z Rear Left  0.4  goes backwards 0.9° Moons MS17HA6P4200*
+M569 P0.5  S0 D2                              ; Z Front Left 0.5  goes backwards 0.9° Moons MS17HA6P4200*
 M584 E0.0 Y50.0 X51.0 Z0.5:0.4:0.3            ; set drive mapping
 
 ; Microstepping
