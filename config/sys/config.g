@@ -26,11 +26,11 @@ M569 P0.5  S0 D2                              ; Z Front Left 0.5 goes backwards 
 M584 E0.0 X50.0 Y51.0 Z0.5:0.4:0.3            ; set drive mapping
 
 ; Microstepping
-var xyUStep = 128                             ; X & Y microstepping variables
+var xyUStep = 32                              ; X & Y microstepping variables
 var zUStep  = 16                              ; Z
-var eUStep  = 16                              ; E
+var eUStep  = 32                              ; E
 
-M350 X{var.xyUStep} Y{var.xyUStep} I0         ; configure microstepping without interpolation
+M350 X{var.xyUStep} Y{var.xyUStep} I1         ; configure microstepping without interpolation
 M350 Z{var.zUStep}  E{var.eUStep}  I1         ; configure microstepping with    interpolation
 
 ; Steps on X & Y
@@ -52,17 +52,16 @@ M92 E{var.eUStep / 16 * 562}                                  ; E set steps per 
 ;   = Max stepper rating in milliamps * 0.8
 ;     Adjust multiplier as desired. Lower is quieter, while higher means more torque, noise, and heat.
 ;     ...but never over 1.0! (and even over 0.8 may lead to excess heat)
-; TODO current reduced for safety while ensuring everything works correctly
-M906 X{3500 * 0.8} Y{3500 * 0.8} I50                          ; X & Y set motor currents (mA) and motor idle factor in per cent
+M906 X{4000 * 0.8} Y{3500 * 0.8} I50                          ; X & Y set motor currents (mA) and motor idle factor in per cent
 M906 Z{2000 * 0.8}               I50                          ; Z     set motor currents (mA) and motor idle factor in per cent
 M906 E600                        I50                          ; E     set motor currents (mA), per Bondtech use between 450-650mA
 M84 S60                                                       ; Set idle timeout
 
 ; Speeds
-M203 X{400 * 60} Y{400 * 60} Z{12 * 60}  E{60 * 60}           ; set maximum speeds (mm/min)
+M203 X{600 * 60} Y{600 * 60} Z{12 * 60}  E{60 * 60}           ; set maximum speeds (mm/min)
 M201 X6000.00    Y6000.00    Z360.00     E1500.00             ; set accelerations (mm/s^2)
 M566 X{6 * 60}   Y{6 * 60}   Z{1.6 * 60} E{25 * 60}           ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1500 T3000                                              ; set acceleration for print moves and for travel moves
+M204 P1500 T6000                                              ; set acceleration for print moves and for travel moves
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
@@ -71,8 +70,8 @@ M204 P1500 T3000                                              ; set acceleration
 ; F = Off Time   (toff),      Default = 3
 ; Y = Hysteresis (start:end), Default = 5:0
 M569 P0.0 V250 H1                                      ; E            - Set tpwmthrs so StealthChop @ 3.60mm/sec, thigh @ 89.60 mm/sec
-M569 P0.1 V400 H1 Y7:4 ; B2 F4                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
-M569 P0.2 V400 H1 Y7:4 ; B2 F4                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.1 V400 H1 Y7:3 ; B2 F4                         ; X            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
+M569 P0.2 V400 H1 Y7:3 ; B2 F4                         ; Y            - Set tpwmthrs so StealthChop @ 10.5mm/sec, thigh @ (disable)
 M569 P0.3 V400 H1 ; B2 F4 Y5:0                         ; Z Right      - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
 M569 P0.4 V400 H1 ; B2 F4 Y5:0                         ; Z Left Rear  - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
 M569 P0.5 V400 H1 ; B2 F4 Y5:0                         ; Z Left Front - Set tpwmthrs so StealthChop @ 1.20mm/sec, thigh @ (disable)
@@ -128,13 +127,12 @@ M307 H1 R2.648 K0.411:0.180 D4.12 E1.35 S1.00 B0 V23.8
 ; M303 T0 S215 
 
 ; Fans
-
 M950 F0 C"out7" Q500                         ; create fan 0 on pin out7 and set its frequency
 M106 P0 C"Part" S0 H-1                       ; set fan 0 name and value. Thermostatic control is turned off
 M950 F2 C"out8" Q500                         ; create fan 2 on pin out8 and set its frequency
 M106 P2 C"Hotend" S1.0 H1 T40                ; set fan 2 name and value. Thermostatic control is turned on. *Fan is Mosquito fan.
 M950 F3 C"!out6+out6.tach" Q25000            ; create fan 3 as PWM fan on pin out6 and set its frequency
-M106 P3 C"Elec Box" S0.5 H-1                 ; set fan 3 name and value. Thermostatic control is turned off
+; M106 P3 C"Elec Box" S0.5 H-1                 ; set fan 3 name and value. Thermostatic control is turned off
 
 ; Configure Stepper X/Y Fans thermostatically controlled by hotend,
 ; since that's likely when the steppers need cooling
