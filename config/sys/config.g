@@ -26,14 +26,14 @@ M569 P0.5  S0 D2                              ; Z Front Left 0.5  goes backwards
 M584 E0.0 Y50.0 X51.0 Z0.5:0.4:0.3            ; set drive mapping
 
 ; Closed Loop Settings
-M569.1 P50.0 T2 C5120 S200 R200.0 I50000.000 D0.1  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
-M569.1 P51.0 T2 C5120 S200 R200.0 I50000.000 D0.1  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
+M569.1 P50.0 T2 C5120 S200 R200.0 I50000.000 D0.09  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
+M569.1 P51.0 T2 C5120 S200 R200.0 I50000.000 D0.09  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
 ; Setting from auto-tuning. Not great...
 ; M569.1 P50.0 T2 C5120 S200 R75.0 I2000.000 D0.07  H75 E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
 ; M569.1 P51.0 T2 C5120 S200 R75.0 I2000.000 D0.07  H75 E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
 
 ; Microstepping
-var xyUStep = 128                              ; X & Y microstepping variables
+var xyUStep = 128                             ; X & Y microstepping variables
 var zUStep  = 16                              ; Z
 var eUStep  = 32                              ; E
 
@@ -65,10 +65,21 @@ M906 E600                        I50                          ; E     set motor 
 M84 S60                                                       ; Set idle timeout
 
 ; Speeds
-M203 X{400 * 60} Y{400 * 60} Z{12 * 60}  E{60 * 60}           ; set maximum speeds (mm/min)
-M201 X6000.00    Y6000.00    Z360.00     E1500.00             ; set accelerations (mm/s^2)
-M566 X{6 * 60}   Y{6 * 60}   Z{1.6 * 60} E{25 * 60}           ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1500 T6000                                              ; set acceleration for print moves and for travel moves
+global openLoopMaxSpeed      = {400  * 60}                      ; Max speed in open loop (mm/min)
+global openLoopMaxAccel      = 6000                             ; Max accel in open loop (mm/s^2)
+global openLoopPrintAccel    = 1500                             ; Print accel in open loop (mm/s^2)
+global openLoopTravelAccel   = 6000                             ; Travel in open loop (mm/s^2)
+
+global closedLoopMaxSpeed    = {1000  * 60}                     ; Max speed in closed loop (mm/min)
+global closedLoopMaxAccel    = 10000                            ; Max accel in closed loop (mm/s^2)
+global closedLoopPrintAccel  = 1500                             ; Print accel in open loop (mm/s^2)
+global closedLoopTravelAccel = 10000                            ; Travel in open loop (mm/s^2)
+
+M203                         Z{12 * 60}  E{60 * 60}             ; set maximum speeds (mm/min)
+M201                         Z360.00     E1500.00               ; set accelerations (mm/s^2)
+M566 X{6 * 60}   Y{6 * 60}   Z{1.6 * 60} E{25 * 60}             ; set maximum jerk (instantaneous speed changes) (mm/min)
+
+M862M862                                                        ; Set open loop mode with custom macro, includes X & Y speeds
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds

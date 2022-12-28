@@ -12,9 +12,7 @@ G4 P150           ; pause for 150ms
 
 G1 H2 Z5 F9999    ; lift Z relative to current position
 
-; Set open loop mode
-M569 P50.0 S1 D2     ; Y / Front
-M569 P51.0 S1 D2     ; X / Rear
+M862              ; Set open loop mode with custom macro
 
 ; Home Y first to avoid possible Euclid collision
 G1 H1 Y-350 F3000 ; move quickly to Y axis endstop and stop there (first pass)
@@ -35,12 +33,10 @@ M400                ; Wait for move to finish
 G4 P150             ; pause for 150ms
 
 ; Set closed loop mode
-M569 P51.0 S1 D4    ; X / Rear
+M864                ; Set closed loop mode with custom macro
+
 M569.6 P51.0 V1     ; Tune X
-
-G4 P150             ; pause for 100ms
-
-M569 P50.0 S1 D4    ; Y / Front
+G4 P150             ; pause for 150ms
 M569.6 P50.0 V1     ; Tune Y
 
 ; M917 X25 Y25        ; Set the closed loop axes to have a holding current

@@ -7,10 +7,6 @@ var zProbePointY = 150 - {sensors.probes[0].offsets[1]}
 M561                                              ; clear any bed transform
 M290 S0 R0                                        ; clear baby steps 
 
-; Trinamic tuning
-; M17 X Y Z         ; Energize X, Y & Z steppers (core xy uses both steppers to move straight, and we move the bed)
-; G4 P150           ; pause for 150ms
-
 if !move.axes[0].homed || !move.axes[1].homed     ; If the printer hasn't been homed, home it
    M98 P"0:/sys/homexy.g"  
 
