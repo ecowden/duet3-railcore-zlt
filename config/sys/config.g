@@ -25,15 +25,19 @@ M569 P0.4  S0 D2                              ; Z Rear Left  0.4  goes backwards
 M569 P0.5  S0 D2                              ; Z Front Left 0.5  goes backwards 0.9° Moons MS17HA6P4200*
 M584 E0.0 Y50.0 X51.0 Z0.5:0.4:0.3            ; set drive mapping
 
-M569.1 P50.0 T2 C5120 R100 I0 D0              ; 1HCL at address 50 has a quadrature encoder with 5120 CPR.
-M569.1 P51.0 T2 C5120 R100 I0 D0              ; 1HCL at address 51 has a quadrature encoder with 5120 CPR
+; Closed Loop Settings
+M569.1 P50.0 T2 C5120 S200 R200.0 I50000.000 D0.1  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
+M569.1 P51.0 T2 C5120 S200 R200.0 I50000.000 D0.1  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
+; Setting from auto-tuning. Not great...
+; M569.1 P50.0 T2 C5120 S200 R75.0 I2000.000 D0.07  H75 E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
+; M569.1 P51.0 T2 C5120 S200 R75.0 I2000.000 D0.07  H75 E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
 
 ; Microstepping
-var xyUStep = 64                              ; X & Y microstepping variables
+var xyUStep = 128                              ; X & Y microstepping variables
 var zUStep  = 16                              ; Z
 var eUStep  = 32                              ; E
 
-M350 X{var.xyUStep} Y{var.xyUStep} I1         ; configure microstepping without interpolation
+M350 X{var.xyUStep} Y{var.xyUStep} I0         ; configure microstepping without interpolation
 M350 Z{var.zUStep}  E{var.eUStep}  I1         ; configure microstepping with    interpolation
 
 ; Steps on X & Y

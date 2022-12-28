@@ -13,8 +13,8 @@ G4 P150           ; pause for 150ms
 G1 H2 Z5 F9999    ; lift Z relative to current position
 
 ; Set open loop mode
-M569 P50.0 D2     ; Y / Front
-M569 P51.0 D2     ; X / Rear
+M569 P50.0 S1 D2     ; Y / Front
+M569 P51.0 S1 D2     ; X / Rear
 
 ; Home Y first to avoid possible Euclid collision
 G1 H1 Y-350 F3000 ; move quickly to Y axis endstop and stop there (first pass)
@@ -30,18 +30,22 @@ G90               ; absolute positioning
 
 ; --- Closed Loop Tuning--------------------------------------------------------
 
-G1 X150 Y150      ; Go to a safe position in the middle of the bed
+G1 X150 Y150 F99999 ; Go to a safe position in the middle of the bed
+M400                ; Wait for move to finish
+G4 P150             ; pause for 150ms
 
 ; Set closed loop mode
-M569 P50.0 D4     ; Y / Front
-M569 P51.0 D4     ; X / Rear
+M569 P51.0 S1 D4    ; X / Rear
+M569.6 P51.0 V1     ; Tune X
 
-M917 X0 Y0        ; Set the closed loop axes to have a holding current of zero
+G4 P150             ; pause for 100ms
 
-M569.6 P50.0 V1   ; Tune Y
-M569.6 P51.0 V1   ; Tune X
+M569 P50.0 S1 D4    ; Y / Front
+M569.6 P50.0 V1     ; Tune Y
+
+; M917 X25 Y25        ; Set the closed loop axes to have a holding current
 
 ; --- Clean Up -----------------------------------------------------------------
-G1 H2 Z-5 F9999   ; lower Z again
-
-
+G91                 ; relative positioning
+G1 H2 Z-5 F9999     ; reduce Z again
+G90                 ; absolute positioning
