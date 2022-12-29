@@ -18,19 +18,19 @@ G4 S1                                         ; wait for expansion boards to sta
 
 ; Drives
 M569 P0.0  S0 D2                              ; Extruder     0.0  goes forwards  1.8° LDO on LGX Lite
-M569 P50.0 S1 D2                              ; Y / Front    50.0 goes backwards 1.8° Moons MS23HS0L4350*
-M569 P51.0 S1 D2                              ; X / Rear     51.0 goes backwards 1.8° Moons MS23HS0L4350*
+M569 P50.0 S1 D2                              ; Y / Front    50.0 goes backwards 1.8° Moons ML23HS0L4350-E*
+M569 P51.0 S1 D2                              ; X / Rear     51.0 goes backwards 1.8° Moons ML23HS0L4350-E*
 M569 P0.3  S0 D2                              ; Z Right      0.3  goes backwards 0.9° Moons MS17HA6P4200*
 M569 P0.4  S0 D2                              ; Z Rear Left  0.4  goes backwards 0.9° Moons MS17HA6P4200*
 M569 P0.5  S0 D2                              ; Z Front Left 0.5  goes backwards 0.9° Moons MS17HA6P4200*
 M584 E0.0 Y50.0 X51.0 Z0.5:0.4:0.3            ; set drive mapping
 
 ; Closed Loop Settings
-M569.1 P50.0 T2 C5120 S200 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
-M569.1 P51.0 T2 C5120 S200 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
+M569.1 P50.0 T2 C5120 S200 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR (CUI AMT10E2)
+M569.1 P51.0 T2 C5120 S200 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR (CUI AMT10E2)
 ; Auto Tuned Settings...very mediocre
-; M569.1 P50.0 T2 C5120 S200 R70.0 I4000.000 D0.10  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
-; M569.1 P51.0 T2 C5120 S200 R70.0 I4000.000 D0.10  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
+; M569.1 P50.0 T2 C5120 S200 R70.0 I4000.000 D0.10  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR (CUI AMT10E2)
+; M569.1 P51.0 T2 C5120 S200 R70.0 I4000.000 D0.10  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR (CUI AMT10E2)
 
 ; Microstepping
 var xyUStep = 64                              ; X & Y microstepping variables
