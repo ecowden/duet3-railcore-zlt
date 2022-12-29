@@ -14,7 +14,7 @@ M669 K1                                      ; select CoreXY mode
 ; Expansion Boards
 ; B50 Bottom 1HCL Front Stepper
 ; B51 Top    1HCL Rear  Stepper
-G4 S1                                        ; wait for expansion boards to start
+G4 S1                                         ; wait for expansion boards to start
 
 ; Drives
 M569 P0.0  S0 D2                              ; Extruder     0.0  goes forwards  1.8° LDO on LGX Lite
@@ -26,14 +26,11 @@ M569 P0.5  S0 D2                              ; Z Front Left 0.5  goes backwards
 M584 E0.0 Y50.0 X51.0 Z0.5:0.4:0.3            ; set drive mapping
 
 ; Closed Loop Settings
-M569.1 P50.0 T2 C5120 S200 R200.0 I60000.000 D0.08  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
-M569.1 P51.0 T2 C5120 S200 R200.0 I60000.000 D0.08  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
-; Better at high speeds, worse at low speeds
-; M569.1 P50.0 T2 C5120 S200 R250.0 I40000.000 D0.02  E1:2     ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
-; M569.1 P51.0 T2 C5120 S200 R250.0 I10000.000 D0.07  E1:2     ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
-; Setting from auto-tuning. Not great...
-; M569.1 P50.0 T2 C5120 S200 R75.0 I2000.000 D0.07  H75 E1:2   ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
-; M569.1 P51.0 T2 C5120 S200 R75.0 I2000.000 D0.07  H75 E1:2   ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
+M569.1 P50.0 T2 C5120 S200 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
+M569.1 P51.0 T2 C5120 S200 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
+; Auto Tuned Settings...very mediocre
+; M569.1 P50.0 T2 C5120 S200 R70.0 I4000.000 D0.10  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR
+; M569.1 P51.0 T2 C5120 S200 R70.0 I4000.000 D0.10  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR
 
 ; Microstepping
 var xyUStep = 64                              ; X & Y microstepping variables
@@ -71,7 +68,7 @@ M84 S60                                                       ; Set idle timeout
 M203 X{500 * 60} Y{500 * 60} Z{12 * 60}  E{60 * 60}             ; set maximum speeds (mm/min)
 M201 X10000      Y10000      Z360.00     E1500.00               ; set maximum accelerations (mm/s^2)
 M566 X{6 * 60}   Y{6 * 60}   Z{1.6 * 60} E{25 * 60}             ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1500 T8000                                                ; set print and travel accelerations (mm/s^2)
+M204 P1500 T8000                                                ; set default print and travel accelerations (mm/s^2)
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
@@ -99,15 +96,11 @@ M915 E T1                                             ; E CoolStep threshold to 
 M915 X Y T1                                           ; X & Y CoolStep threshold to very high speed to effectively disable CoolStep
 
 ; Axis Limits
-; TODO adjust based on new endstop positions, and off-board Euclid position
 M208 X-15 Y0   Z0.01 S1                      ; set axis minima
-; M208 X300 Y300 Z600  S0                      ; set axis maxima
-; TODO re-limit the Y axis after tuning Euclid
 M208 X300 Y307 Z600  S0                      ; set axis maxima
 
 ; Leadscrew locations
 M671 X-8.8:-8.8:348.6  Y23.9:278.8:149 S7.5   ; Measured leadscrew locations
-; M671 X-8.9:-8.9:345.2  Y20.5:274.9:147.5 S7.5   ; Measured leadscrew locations
 
 ; Endstops
 M574 X1 S1 P"io0.in"                         ; configure active-high endstop for high end on X via pin io1.in

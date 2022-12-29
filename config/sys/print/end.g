@@ -22,4 +22,4 @@ else
 
 G1 X10 Y{ move.axes[1].max / 2 } F6000      ; move extruder out of the way
 
-; M84                                         ; disable motors
+M84                                         ; disable motors
