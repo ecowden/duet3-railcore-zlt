@@ -29,18 +29,21 @@ M569 P0.5  S0 D2                              ; Z Front Left 0.5  goes backwards
 M584 E0.0 Y50.0 X51.0 Z0.5:0.4:0.3            ; set drive mapping
 
 ; Closed Loop Settings
-; "Best" settings for 0.9° Moons ML23HA0L4350-E
-M569.1 P50.0 T2 C5120 S400 R80.0 I30000 D0.05  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR (CUI AMT10E2)
-M569.1 P51.0 T2 C5120 S400 R80.0 I30000 D0.05  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR (CUI AMT10E2)
-; "Best" settings for 1.8° Moons ML23HS0L4350-E
-; M569.1 P50.0 T2 C5120 S400 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR (CUI AMT10E2)
-; M569.1 P51.0 T2 C5120 S400 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR (CUI AMT10E2)
-; Auto Tuned Settings...very mediocre
+; "Best" settings for 1.8° Moons ML23HS0L4350-E w/ TMC 10K Encoder
+M569.1 P50.0 T2 C10000 S200 R100.0 I65000 D0.100  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 10,000 CPR (TMC 10k)
+M569.1 P51.0 T2 C10000 S200 R100.0 I65000 D0.100  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 10,000 CPR (TMC 10k)
+; "Best" settings for 0.9° Moons ML23HA0L4350-E w/ CUI Encoder
+; M569.1 P50.0 T2 C5120 S400 R80.0 I30000 D0.05  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR (CUI AMT10E2)
+; M569.1 P51.0 T2 C5120 S400 R80.0 I30000 D0.05  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR (CUI AMT10E2)
+; "Best" settings for 1.8° Moons ML23HS0L4350-E w/ CUI Encoder
+; M569.1 P50.0 T2 C5120 S200 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR (CUI AMT10E2)
+; M569.1 P51.0 T2 C5120 S200 R200.0 I40000.000 D0.09  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR (CUI AMT10E2)
+; Auto Tuned Settings for 1.8° Moons ML23HS0L4350-E w/ CUI Encoder...very mediocre
 ; M569.1 P50.0 T2 C5120 S200 R70.0 I4000.000 D0.10  E1:2       ; 1HCL address 50 Y / Front has a quadrature encoder with 5120 CPR (CUI AMT10E2)
 ; M569.1 P51.0 T2 C5120 S200 R70.0 I4000.000 D0.10  E1:2       ; 1HCL address 51 X / Rear  has a quadrature encoder with 5120 CPR (CUI AMT10E2)
 
 ; Microstepping
-var xyUStep = 32                              ; X & Y microstepping variables
+var xyUStep = 64                              ; X & Y microstepping variables
 var zUStep  = 16                              ; Z
 var eUStep  = 32                              ; E
 
@@ -54,8 +57,8 @@ M350 Z{var.zUStep}  E{var.eUStep}  I1         ; configure microstepping with    
 var xyPulleyTeeth = 20                                        ; the number of teeth per pulley on the X & Y axes
 var toothMM       =  2                                        ; the spacing per pulley tooth in millimeters
 
-M92 X{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; X set steps per mm
-M92 Y{400 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; Y set steps per mm
+M92 X{200 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; X set steps per mm
+M92 Y{200 / (var.xyPulleyTeeth * var.toothMM) * var.xyUStep}  ; Y set steps per mm
 M92 Z{400 * var.zUStep / 4}                                   ; Z set steps per mm
 
 ; Extruder steps
@@ -73,7 +76,7 @@ M84 S60                                                       ; Set idle timeout
 
 ; Speeds
 M203 X{400 * 60} Y{400 * 60} Z{12 * 60}  E{60 * 60}             ; set maximum speeds (mm/min)
-M201 X8000       Y8000       Z360.00     E1500.00               ; set maximum accelerations (mm/s^2)
+M201 X12000      Y12000      Z360.00     E1500.00               ; set maximum accelerations (mm/s^2)
 M566 X{6 * 60}   Y{6 * 60}   Z{1.6 * 60} E{25 * 60}             ; set maximum jerk (instantaneous speed changes) (mm/min)
 M204 P1500 T8000                                                ; set default print and travel accelerations (mm/s^2)
 

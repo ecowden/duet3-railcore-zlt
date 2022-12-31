@@ -28,15 +28,20 @@ G90               ; absolute positioning
 
 ; --- Closed Loop Tuning--------------------------------------------------------
 
-G1 X150 Y150 F99999 ; Go to a safe position in the middle of the bed
-M400                ; Wait for move to finish
-G4 P150             ; pause for 150ms
+G1 X148 Y148 F99999      ; Go to a safe position in the middle of the bed
+G1 X150 Y150 F{60 * 60}  ; Slowly move to final position
+M400                     ; Wait for move to finish
+G4 P150                  ; pause for 150ms
 
 ; Set closed loop mode
 M864                ; Set closed loop mode with custom macro
 
 M569.6 P51.0 V1     ; Tune X
+M569.6 P50.0 V1     ; Tune Y
+
+; Backlash testing -- Tune twice
 G4 P150             ; pause for 150ms
+M569.6 P51.0 V1     ; Tune X
 M569.6 P50.0 V1     ; Tune Y
 
 ; M917 X25 Y25        ; Set the closed loop axes to have a holding current
