@@ -3,7 +3,7 @@
 ; Move X & Y in one layer of the 3D Benchy Perimeter
 ; Use this as a short but somewhat real world motion test
 
-var speed = {200 * 60}                           ; set speed in mm/min
+var speed = {150 * 60}                           ; set speed in mm/min
 var inner = false                                ; if true, use the inner perimeter
 var outer = true                                 ; if true, use the outer perimeter
 
