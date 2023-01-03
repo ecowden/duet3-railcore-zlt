@@ -39,12 +39,7 @@ M864                ; Set closed loop mode with custom macro
 M569.6 P51.0 V1     ; Tune X
 M569.6 P50.0 V1     ; Tune Y
 
-; Backlash testing -- Tune twice
-G4 P150             ; pause for 150ms
-M569.6 P51.0 V1     ; Tune X
-M569.6 P50.0 V1     ; Tune Y
-
-; M917 X25 Y25        ; Set the closed loop axes to have a holding current
+; M917 X25 Y25        ; Set the closed loop holding current
 
 ; --- Clean Up -----------------------------------------------------------------
 G91                 ; relative positioning
