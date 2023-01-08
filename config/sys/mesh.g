@@ -50,8 +50,10 @@ if (exists(param.A) && exists(param.B) && exists(param.C) && exists(param.D))
     echo "Performing a print-specific mesh: ", "xMin=", var.xMin, "xMax=", var.xMax, "yMin=", var.yMin, "yMax=", var.yMax, "nX=", param.E, "nY=", param.F
     M557 X{param.A,param.B} Y{param.C,param.D} P{param.E,param.F}            ; define print mesh grid using it
   else                                                                       ; otherwise...
-    var nPointsX = max(floor(min((var.xMax - var.xMin) / var.defaultSpacingMm, var.maxPoints)),2)
-    var nPointsY = max(floor(min((var.yMax - var.yMin) / var.defaultSpacingMm, var.maxPoints)),2)
+    var distanceX = var.xMax - var.xMin
+    var distanceY = var.yMax - var.yMin
+    var nPointsX = max(floor(min(var.distanceX / var.defaultSpacingMm, var.maxPoints)),2)
+    var nPointsY = max(floor(min(var.distanceY / var.defaultSpacingMm, var.maxPoints)),2)
     echo "Performing a print-specific mesh: ", "xMin=", var.xMin, "xMax=", var.xMax, "yMin=", var.yMin, "yMax=", var.yMax, "nX=", var.nPointsX, "nY=", var.nPointsY
     M557 X{param.A,param.B} Y{param.C,param.D} P{var.nPointsX,var.nPointsY} ; define print mesh grid with default point spacing
     

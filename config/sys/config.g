@@ -78,7 +78,8 @@ M84 S60                                                       ; Set idle timeout
 M203 X{400 * 60} Y{400 * 60} Z{12 * 60}  E{60 * 60}             ; set maximum speeds (mm/min)
 M201 X12000      Y12000      Z360.00     E1500.00               ; set maximum accelerations (mm/s^2)
 M566 X{6 * 60}   Y{6 * 60}   Z{1.6 * 60} E{25 * 60}             ; set maximum jerk (instantaneous speed changes) (mm/min)
-M204 P1500 T8000                                                ; set default print and travel accelerations (mm/s^2)
+M204 P1500 T6000                                                ; set default print and travel accelerations (mm/s^2) "Quiet"
+; M204 P4500 T10000                                             ; set default print and travel accelerations (mm/s^2) "Speedy"
 
 ; Trinamic Drive Tuning
 ; Tune tpwmthrs (V) so stealthchop runs at appropriate speeds
